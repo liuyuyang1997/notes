@@ -1,4 +1,4 @@
-//导入vue包
+//导入vue包 hahaha
 import Vue from 'vue'
 //导入App组件
 import App from './App.vue'
