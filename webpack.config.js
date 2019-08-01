@@ -5,7 +5,8 @@ module.exports = {
         app:"./src/main.js"
     },
     output: {
-        publicPath:__dirname + "/dist",
+        //publicPath这个路径是bundle.js 在webpack-dev-server 处理之后 保存在内存中的目录
+        publicPath:"/dist",
         path:path.resolve(__dirname, "dist"),
         filename:"bundle.js"
     },

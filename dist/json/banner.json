@@ -1,0 +1,7 @@
+{
+    "banner": [
+        { "name":"banner1", "url": "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3949781130,170972349&fm=26&gp=0.jpg"},
+        { "name":"banner2", "url": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564633259044&di=d9fc1c5232c726b6409d25e47780e8a7&imgtype=0&src=http%3A%2F%2Fimg1.gtimg.com%2Fninja%2F1%2F2015%2F11%2Fninja144644355133891.jpg"},
+        { "name":"banner3", "url": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564642825453&di=8d50c798a5f0efc9b092e50e314a94d8&imgtype=0&src=http%3A%2F%2Fimg.sccnn.com%2Fbimg%2F337%2F46882.jpg"}
+    ]
+}
