@@ -15,7 +15,8 @@ module.exports = {
 			{ test: /\.css$/, use: ['style-loader', 'css-loader'] },
 			{ test: /\.vue$/, use: 'vue-loader' },
 			{test:/\.(jpg|jpeg|png|pneg|gif|bmp)$/, use: 'url-loader'},
-			{test:/\.(ttf|eot|svg|woff|woff2)$/, use: 'url-loader'}
+            {test:/\.(ttf|eot|svg|woff|woff2)$/, use: 'url-loader'},
+            { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] }
 		]
     },
     plugins: [new VueLoaderPlugin()]

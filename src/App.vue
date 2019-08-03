@@ -36,6 +36,7 @@
 <style scoped>
 .app-container{
 	padding-top: 40px;
+	padding-bottom: 50px;
 	overflow: hidden;
 }
 .v-enter{
@@ -49,6 +50,6 @@
 }
 .v-enter-active,
 .v-leave-active{
-	transition: all 0.4s ease;
+	transition: all 0.5s ease;
 }
 </style>
