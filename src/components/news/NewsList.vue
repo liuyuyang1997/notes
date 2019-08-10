@@ -3,7 +3,7 @@
         <!-- 新闻列表 -->
         <ul class="mui-table-view">
             <li class="mui-table-view-cell mui-media" v-for="item in info" :key="item.id">
-                <router-link :to="'/home/newslist/newsinfo/'+item.id">
+                <router-link :to="'/home/newsinfo/'+item.id">
                     <img class="mui-media-object mui-pull-left" :src="item.img_url">
                     <div class="mui-media-body">
                         <h1>{{item.title}}</h1>

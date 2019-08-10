@@ -1,3 +1,5 @@
+// --host 192.168.0.103
+
 //导入vue包
 import Vue from 'vue'
 //导入App组件
@@ -26,13 +28,23 @@ import './lib/mui/css/mui.css'
 //导入额外图标css
 import './lib/mui/css/icons-extra.css'
 
-//按需导入mint-ui 组件
+// //按需导入mint-ui 组件
+// import 'mint-ui/lib/style.css'
+// import { Header, Swipe, SwipeItem, Button, Lazyload} from 'mint-ui';
+// Vue.component(Header.name, Header);
+// Vue.component(Swipe.name, Swipe);
+// Vue.component(SwipeItem.name, SwipeItem);
+// Vue.component(Button.name, Button);
+// Vue.use(Lazyload);
+
+//全局导入mint-ui
+import MintUI from 'mint-ui'
+Vue.use(MintUI)
 import 'mint-ui/lib/style.css'
-import { Header, Swipe, SwipeItem, Button } from 'mint-ui';
-Vue.component(Header.name, Header);
-Vue.component(Swipe.name, Swipe);
-Vue.component(SwipeItem.name, SwipeItem);
-Vue.component(Button.name, Button);
+
+//导入并安装vue-preview
+import VuePreview from 'vue-preview';
+Vue.use(VuePreview);
 
 var vm = new Vue({
 	el: '#app',
