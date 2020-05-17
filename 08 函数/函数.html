@@ -149,6 +149,18 @@
 
         // 全局环境下 this 与window 一致
         // console.log(this == window) //true
+
+        //对象方法中的函数 this 指向 是window
+        // let lesson = {
+        //     site: 'houdunren',
+        //     lists: ['js', 'css', 'html'],
+        //     show() {
+        //         return this.lists.map(item => {
+        //             return `${this.site}-${item}`
+        //         }, this)
+        //     }
+        // }
+        // console.log(lesson.show()); //["houdunren-js", "houdunren-css", "houdunren-html"]
     </script>
 </body>
 
