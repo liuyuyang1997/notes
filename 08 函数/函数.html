@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let func = new Function('title', 'console.log(title)');
+        // func('hello'); //hello
+
+        //具名函数有变量提升 匿名函数没有 
+
+        // function sum(...args) {
+        //     return args.reduce((a, b) => {
+        //         console.log(a, b)
+        //         return a + b;
+        //     })
+        // }
+        // console.log(sum(1, 2, 3, 4)); //10
+
+        //立即执行函数
+        // (function () {
+        //     console.log(123);
+        // })()
+
+        //利用块级作用域 引入同名方法
+        // (function (window) {
+        //     function show() {
+        //         console.log('show1')
+        //     }
+        //     function hide() {
+        //         console.log('hide1')
+        //     }
+        //     window.js1 = { show, hide }
+        // })(window);
+        // (function (window) {
+        //     function show() {
+        //         console.log('show2')
+        //     }
+        //     function hide() {
+        //         console.log('hide2')
+        //     }
+        //     window.js2 = { show, hide }
+        // })(window);
+        // js1.show(); //show1
+        // js2.show(); //show2
+
+        // 利用let块级作用域 引入同名函数
+        // {
+        //     let show = function () {
+        //         console.log('show1')
+        //     }
+        //     let hide = function () {
+        //         console.log('hide1')
+        //     }
+        //     window.js1 = { show, hide }
+        // }
+        // {
+        //     let show = function () {
+        //         console.log('show2')
+        //     }
+        //     let hide = function () {
+        //         console.log('hide2')
+        //     }
+        //     window.js2 = { show, hide }
+        // }
+        // js1.show(); //show1
+        // js2.show(); //show2
+
+        // function sortarr(arr, type = 'asc') {
+        //     return arr.sort((a, b) => type == 'asc' ? (a - b) : (b - a))
+        // }
+        // console.log(sortarr([2, 5, 1], 'asc'))
+
+        // arguments  不确定变量数量 求和
+        function sum() {
+            console.log(arguments);
+            console.log(arguments.length); //5
+            return [...arguments].reduce((a, b) => a + b); //arguments.reduce is not a function
+        }
+        console.log(sum(1, 2, 1, 4, 5)) //13
+
+
+    </script>
+</body>
+
+</html>

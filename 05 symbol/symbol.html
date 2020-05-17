@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let x = Symbol();
+        // let y = Symbol();
+        // console.log(x == y); //false
+        // //不能像Symbol中亚压属性
+        // y.name = 'lyy';
+        // console.log(y); //Symbol()
+        // console.log(y.name); //undefined
+
+        //为Symbol添加描述
+        // let x = Symbol('这是一段描述');
+        // console.log(x); //Symbol(这是一段描述)
+        // console.log(x.toString()); //'Symbol(这是一段描述)'
+        // console.log(x.description); //这是一段描述
+
+        // 另一种添加描述的方法  区别在于 此时x y 引用的是同一个Symbol
+        // let x = Symbol.for('cmd');
+        // let y = Symbol.for('cmd');
+        // console.log(x == y); //true
+
+        // 两种Symbol的第二个区别
+        // let x = Symbol('cmd');
+        // let y = Symbol.for('hdr');
+        // console.log(Symbol.keyFor(x)); //undefined
+        // console.log(Symbol.keyFor(y)); //hdr
+
+        // symbol 实例1
+        // let user1 = '李四';
+        // let user2 = '李四';
+        // let grade = {
+        //     [user1]: {
+        //         js: 100,
+        //         css: 95
+        //     },
+        //     [user2]: {
+        //         js: 20,
+        //         css: 15
+        //     },
+        // }
+        // console.log(grade); //{李四: {css: 15,js: 20}}  此时只打印出来一个李四 问如何利用 Symbol解决
+        // let user1 = {
+        //     name: '李四',
+        //     key: Symbol()
+        // };
+        // let user2 = {
+        //     name: '李四',
+        //     key: Symbol()
+        // };
+        // let grade = {
+        //     [user1.key]: {
+        //         js: 100,
+        //         css: 95
+        //     },
+        //     [user2.key]: {
+        //         js: 20,
+        //         css: 15
+        //     },
+        // }
+        // console.log(grade); //{Symbol():{js: 100, css: 95},Symbol(): {js: 20, css: 15}}
+        // console.log(grade[user1.key]);  //{js: 100, css: 95}
+
+        // symbol 实例2
+        // class Cache {
+        //     static data = {};
+        //     static set(key, value) {
+        //         this.data[key] = value
+        //     }
+        //     static get(key) {
+        //         return this.data[key];
+        //     }
+        // }
+        // Cache.set('name', 'lyy');
+        // console.log(Cache.get('name'));//lyy
+
+        // let user = {
+        //     name: 'apple',
+        //     desc: '用户'
+        // }
+        // let cart = {
+        //     name: 'apple',
+        //     desc: '购物车'
+        // }
+        // Cache.set(user.name, user);
+        // Cache.set(cart.name, cart);
+        // console.log(Cache.get(user.name)); //{name: "apple", desc: "购物车"} 出现了和实例1 相似的问题
+        // 处理办法
+        // let user = {
+        //     name: 'apple',
+        //     desc: '用户',
+        //     key: Symbol('用户')
+        // }
+        // let cart = {
+        //     name: 'apple',
+        //     desc: '购物车',
+        //     key: Symbol('购物车')
+        // }
+        // Cache.set(user.key, user);
+        // Cache.set(cart.key, cart);
+        // console.log(Cache.get(user.key)); //{name: "apple", desc: "用户", key: Symbol(用户)}
+
+        //Symbol无法用for in 遍历   for of 也不行
+        // let symbol = Symbol('一个symbol属性');
+        // let user = {
+        //     username: 'zs',
+        //     [symbol]: '100'
+        // }
+        // for (let key in user) {
+        //     console.log(key) //username
+        // }
+        // for (let key of Object.keys(user)) {
+        //     console.log(key) //username
+        // }
+
+        //使用 Object.getOwnPropertySymbols() 可以遍历 Symbol  但是只能读取Symbol
+        // for (let key of Object.getOwnPropertySymbols(user)) {
+        //     console.log(key) //Symbol(一个symbol属性)
+        // }
+        //遍历全部key
+        // for (let key of Reflect.ownKeys(user)) {
+        //     console.log(key) //username     Symbol(一个symbol属性)
+        // }
+
+        //在构造函数中使用symbol 保护属性不被看见
+        let site = Symbol('这是一个symbol');
+        class user {
+            constructor(name) {
+                this.name = name,
+                    this[site] = 147
+            }
+            getName() {
+                return `${this.name} ${this[site]}`
+            }
+        }
+        let player = new user('zs');
+        console.log(player.getName()); //zs 147
+        for (let key in player) {
+            console.log(key); //name symbol 被保护了
+        }
+        // for (let key of Reflect.ownKeys(player)) {
+        //     console.log(key)
+        // }
+    </script>
+</body>
+
+</html>

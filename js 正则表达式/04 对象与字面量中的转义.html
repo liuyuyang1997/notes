@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			let price = 12.12
+			console.log(/^\d+\.?\d+$/.test(price))
+			//对象声明正则 需要多转义一次
+			console.log('\d'==='d');  //true
+			let reg = new RegExp('^\\d+\\.?\\d+$');
+			console.log(reg.test(price));
+		</script>
+	</body>
+</html>
