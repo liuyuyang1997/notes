@@ -161,6 +161,28 @@
         //     }
         // }
         // console.log(lesson.show()); //["houdunren-js", "houdunren-css", "houdunren-html"]
+
+        //箭头函数会改变this 指向  指向上下文
+        // let lesson = {
+        //     site: 'hdr',
+        //     lists: ['js', 'css', 'html'],
+        //     show() {
+        //         return this.lists.map(item => {
+        //             return `${this.site}-${item}`
+        //         })
+        //     }
+        // }
+        // console.log(lesson.show());
+
+        // 使用call改变this指向
+        function User(name) {
+            this.name = name;
+        }
+        // let lisi = new User('李四');
+        // console.log(lisi)
+        let person = { sex: '男' };
+        User.call(person, '王五'); //此时this指向被改变为person '王五'会被传给name
+        console.log(person); //{sex: "男", name: "王五"}
     </script>
 </body>
 
