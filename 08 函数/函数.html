@@ -175,14 +175,87 @@
         // console.log(lesson.show());
 
         // 使用call改变this指向
-        function User(name) {
-            this.name = name;
+        // function User(name) {
+        //     this.name = name;
+        // }
+        // // let lisi = new User('李四');
+        // // console.log(lisi)
+        // let person = { sex: '男' };
+        // User.call(person, '王五'); //此时this指向被改变为person '王五'会被传给name
+        // console.log(person); //{sex: "男", name: "王五"}
+
+        // apply 与 call的区别
+        // let lisi = {
+        //     name: '李四'
+        // }
+        // let wangwu = {
+        //     name: '王五'
+        // }
+        // function User(web, url) {
+        //     console.log(web + url + this.name)
+        // }
+        // //call需要一个参数一个参数传   apply需要 传一个数组
+        // //call和apply 会立即执行函数
+        // User.call(lisi, '后盾人', 'hdr'); //后盾人hdr李四
+        // User.apply(lisi, ['后盾人', 'hdr']); //后盾人hdr李四
+
+        // 创建一个 get 请求 链接
+        // function Article() {
+        //     this.url = 'article/lists';
+        //     this.get = function (params) {
+        //         let str = Object.keys(params).map(k => {
+        //             return `${k}=${params[k]}`
+        //         }).join('&');
+        //         return str = this.url + '?' + str
+        //     }
+        // }
+        // function User() {
+        //     this.url = 'user/lists';
+        //     this.get = function (params) {
+        //         let str = Object.keys(params).map(k => {
+        //             return `${k}=${params[k]}`
+        //         }).join('&');
+        //         return str = this.url + '?' + str
+        //     }
+        // }
+        // let a = new Article;
+        // console.log(a.get({ id: 1, car: 'js' }));
+        // let user = new User;
+        // console.log(user.get({ name: '张三', age: '17' }));
+
+        //构造函数方法继承
+        // function request() {
+        //     this.get = function (params) {
+        //         let str = Object.keys(params).map(k => {
+        //             return `${k}=${params[k]}`
+        //         }).join('&');
+        //         return str = this.url + '?' + str
+        //     }
+        // }
+        // function Article() {
+        //     this.url = 'article/lists';
+        //     request.apply(this)
+        // }
+        // function User() {
+        //     this.url = 'user/lists';
+        //     request.apply(this)
+        // }
+        // let a = new Article;
+        // console.log(a.get({ id: 1, car: 'js' }));
+        // let user = new User;
+        // console.log(user.get({ name: '张三', age: '17' }));
+
+        // bind  bind不会立即执行 而是后返回一个新方法
+        function hd(a, b) {
+            return this.f + a + b;
         }
-        // let lisi = new User('李四');
-        // console.log(lisi)
-        let person = { sex: '男' };
-        User.call(person, '王五'); //此时this指向被改变为person '王五'会被传给name
-        console.log(person); //{sex: "男", name: "王五"}
+        //--------1
+        // let func = hd.bind({ f: '1' }, '2', '3');
+        // console.log(func()); //123
+
+        //--------2
+        let func = hd.bind({ f: '1' }, '2', '3');
+        console.log(func(4, 5)); //123  这里的参数会作为 第三项和第四项的参数
     </script>
 </body>
 
