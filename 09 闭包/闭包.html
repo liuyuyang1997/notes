@@ -47,13 +47,132 @@
         // let b = new Hd();
         // b.sum() //2
 
-        {
-            var a = 2;
+        // {
+        //     var a = 2;
+        // }
+        // {
+        //     const a = 5;
+        //     console.log(a); //5
+        // }
+
+        //向数组中添加函数的概念
+        // let arr = [];
+        // for (let i = 1; i <= 3; i++) {
+        //     arr.push(function () {
+        //         return i
+        //     })
+        // }
+        // console.log(arr[0]) // function(){ return i}
+
+        // let arr = [];
+        // for (var i = 0; i <= 3; i++) {
+        //     arr.push(function () {
+        //         return i
+        //     })
+        // }
+        // console.log(arr[0]()) //4
+
+        // let arr = [];
+        // for (var i = 0; i <= 3; i++) {
+        //     (function (i) {
+        //         arr.push(function () {
+        //             return i
+        //         })
+        //     })(i)
+        // }
+        // console.log(arr[1]()) //1
+
+        //利用闭包 实现在数组中选一个区间
+
+        // let arr = [1, 2, 3, 4, 5, 6, 7];
+        // function between(arr, a, b) {
+        //     return arr.filter(val => {
+        //         return val > a && val < b
+
+        //     })
+        // }
+        // console.log(between(arr, 3, 6))
+
+        // let arr = [1, 2, 3, 4, 5, 6, 7];
+        // function between(a, b) {
+        //     return function (v) {
+        //         console.log(v)
+        //         return v > a && v < b;
+        //     }
+        // }
+        // console.log(arr.filter(between(3, 6)))
+
+        //函数在执行一次之后 就会产生一个环境
+        // 闭包就是可以在一个环境中访问到其他函数作用域中的数据
+
+        //闭包排序
+        // let arr = [1, 8, 5, 2, 3];
+        // function order() {
+        //     return function (a, b) {
+        //         return a > b ? 1 : -1
+        //     }
+        // }
+        // let res = arr.sort(order());
+        // console.log(res);
+
+        // getAttribute 获取元素属性
+
+        //this指向为当前调用函数的对象
+        // let hd = {
+        //     user: '后盾人',
+        //     get: function () {
+        //         return this.user
+        //     }
+        // }
+        // console.log(hd.get()); //后盾人
+
+        // let hd = {
+        //     user: '后盾人',
+        //     get: function () {
+        //         return function () {
+        //             return this.user
+        //         }
+
+        //     }
+        // }
+        // console.log(hd.get()()); //undefined
+        // // 原因
+        // // hd.get()() 相当于
+        // let a = hd.get(); 
+        // console.log(a()); //undefined // 此时调用a函数的对象是window window中没有user
+
+        // 解决方法1 用其他变量代替 this
+        // let hd = {
+        //     user: '后盾人',
+        //     get: function () {
+        //         let that = this
+        //         return function () {
+        //             return that.user
+        //         }
+
+        //     }
+        // }
+        // console.log(hd.get()()); //后盾人
+
+        //解决方法2 使用箭头函数
+        let hd = {
+            user: '后盾人',
+            get: function () {
+                return () => {
+                    return this.user
+                }
+
+            }
         }
-        {
-            const a = 5;
-            console.log(a); //5
-        }
+        console.log(hd.get()()); //后盾人
+
+
+
+
+
+
+
+
     </script>
 </body>
 

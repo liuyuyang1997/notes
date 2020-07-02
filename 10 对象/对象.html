@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 函数编程与面向对象编程
+        // 1 函数编程
+        // let name = '张三',
+        //     grade = [
+        //         { name: 'js', score: 99 },
+        //         { name: 'php', score: 76 }
+        //     ]
+        // function average(grade, name) {
+        //     return grade.reduce((t, n) => t + n.score, 0) / grade.length;
+        // }
+        // console.log(average(grade, name))
+        // 2 面向对象编程
+        // let user = {
+        //     name: '张三',
+        //     grade: [
+        //         { name: 'js', score: 99 },
+        //         { name: 'php', score: 76 }
+        //     ],
+        //     average() {
+        //         return this.grade.reduce((t, n) => t + n.score, 0) / this.grade.length;
+        //     }
+        // }
+        // console.log(user.average())
+
+        //对象当中存在同名属性 后面的会把前面的覆盖
+
+        //通过结构获取数组中的一个值  
+        // let arr = [100, 200];
+        // let [, b] = arr;
+        // console.log(b); //200
+
+        //多层 对象的解构
+        // let obj = {
+        //     name: 'zs',
+        //     lesson: {
+        //         title: 'php'
+        //     }
+        // }
+        // let { name, lesson: { title } } = obj;
+        // console.log(name) //zs
+        // // console.log(lesson) //lesson is not defined
+        // console.log(title) //php
+
+        //删除对象属性
+        // let obj = {
+        //     name: 'zs',
+        //     age: 18
+        // }
+        // delete obj.name;
+        // console.log(obj) //{age: 18}
+        // console.log(obj.hasOwnProperty('age')) //true
+
+        // let obj = [10, 20];
+        // console.log(obj.hasOwnProperty('concat')); //false  1检测自己是否有这个属性
+        // console.log('concat' in obj); //true  2 自己和父级 都检测
+
+        //将一个对象设置为另一个对象的父级
+        // let a = {
+        //     name: '张三'
+        // },
+        //     b = {
+        //         name: '李四'
+        //     };
+        // Object.setPrototypeOf(a, b); //把b 设置成 a 的父级
+        // console.log(a)
+
+
+        // 在一个方法中抛出异常
+        function oss(options) {
+            if (!options.hasOwnProperty('url')) {
+                throw new Error('必须设置上传地址'); //Uncaught Error: 必须设置上传地址
+            }
+        }
+        oss({ username: 'admin' })
+    </script>
+</body>
+
+</html>
