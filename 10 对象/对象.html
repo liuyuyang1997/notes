@@ -61,6 +61,7 @@
         // console.log(obj) //{age: 18}
         // console.log(obj.hasOwnProperty('age')) //true
 
+        //属性检测
         // let obj = [10, 20];
         // console.log(obj.hasOwnProperty('concat')); //false  1检测自己是否有这个属性
         // console.log('concat' in obj); //true  2 自己和父级 都检测
@@ -77,12 +78,375 @@
 
 
         // 在一个方法中抛出异常
-        function oss(options) {
-            if (!options.hasOwnProperty('url')) {
-                throw new Error('必须设置上传地址'); //Uncaught Error: 必须设置上传地址
-            }
+        // function oss(options) {
+        //     if (!options.hasOwnProperty('url')) {
+        //         throw new Error('必须设置上传地址'); //Uncaught Error: 必须设置上传地址
+        //     }
+        // }
+        // oss({ username: 'admin' })
+
+        //通过计算属性 改变 数据结构
+        // let lesson = [
+        //     { title: 'js', price: 51 },
+        //     { title: 'html', price: 100 },
+        //     { title: 'css', price: 365 },
+        // ]
+        // let res = lesson.reduce((obj, item, index) => {
+        //     obj[`${item.title}-${index + 1}`] = item;
+        //     return obj;
+        // }, {})
+        // console.log(JSON.stringify(res, null, 2));
+
+        // Object.assign() 合并两个对象
+        // console.log(Object.assign({ a: 1 }, { b: 2 })); //{a: 1, b: 2}
+
+        //获取对象的属性名、值
+        // let lesson = { title: 'js', price: 51 };
+        // console.log(Object.keys(lesson)); // ["title", "price"]
+        // console.log(Object.values(lesson)); //["js", 51]
+        // console.log(Object.entries(lesson)); //[["title", "js"],["price", 51]]
+
+        // for of 迭代器
+        // let lesson = [
+        //     { title: 'js', price: 51 },
+        //     { title: 'html', price: 100 },
+        //     { title: 'css', price: 365 },
+        // ]
+        // 数组可以迭代 因为数据具有迭代特性
+        // for (item of lesson) {
+        //     console.log(item)
+        // }
+        // 对象没有迭代特性
+        // 但是 Object.keys() 和 Object.values() 返回的值具有迭代特性
+        // let lesson = { title: 'js', price: 51 };
+        // for (item of Object.keys(lesson)) {
+        //     console.log(item); //title  price
+        // }
+        // for (item of Object.values(lesson)) {
+        //     console.log(item); //js  51
+        // }
+        // for (item of Object.entries(lesson)) {
+        //     console.log(item); //["title", "js"]  ["price", 51]
+        // }
+        // for ([key, value] of Object.entries(lesson)) {
+        //     console.log(key); //title  price
+        //     console.log(value); //js  51
+        // }
+
+        //浅拷贝的多种方法
+        // 1 不直接把对象赋值给对象 而是把对象的值赋值给对象的值
+        //-- 1-A 简单赋值
+        // let a = { name: '后盾人' };
+        // let b = {
+        //     name: a.name
+        // };
+        // b.name = 123;
+        // console.log(a.name);
+        //-- 1-B 循环赋值
+        // let a = { name: '后盾人', price: 123 };
+        // let b = {};
+        // for ([key, value] of Object.entries(a)) {
+        //     b[key] = value
+        // }
+        // for (key of Object.keys(a)) {
+        //     b[key] = a[key]
+        // }
+        // b.name = 123;
+        // console.log(b); //{name: 123, price: 123}
+        // console.log(a); //{name: "后盾人", price: 123}
+
+        // 2 使用 Object.assign()
+        // let a = { name: '后盾人' };
+        // let b = Object.assign({}, a);
+        // b.name = 123;
+        // console.log(a)
+        // console.log(b)
+
+        // 3 使用展开语法
+        // let a = { name: '后盾人' };
+        // let b = { ...a };
+        // b.name = 123;
+        // console.log(a)
+        // console.log(b)
+
+        //以上方法只能对一层的对象进行浅拷贝 
+        // 5 利用递归 进行多层次对象的浅拷贝
+        // let a = {
+        //     name: '后盾人',
+        //     user: {
+        //         name: 'lyy'
+        //     },
+        // }
+        // function copy(obj) {
+        //     let res = {}
+        //     for (key of Object.keys(obj)) {
+        //         res[key] = typeof obj[key] == 'object' ? copy(obj[key]) : obj[key]
+        //     }
+        //     return res;
+        // }
+        // let hd = copy(a)
+        // hd.user.name = 123;
+        // console.log(a)
+        // console.log(hd)
+
+        //上述方法 在处理 对象中含有数据数组时 会把原数据中的数组转化为对象
+        // 修改
+        // let a = {
+        //     name: '后盾人',
+        //     user: {
+        //         name: 'lyy'
+        //     },
+        //     arr: [1, 2, 3]
+        // }
+        // function copy(obj) {
+        //     let res = obj instanceof Array ? [] : {};
+        //     for (key of Object.keys(obj)) {
+        //         res[key] = typeof obj[key] == 'object' ? copy(obj[key]) : obj[key]
+        //     }
+        //     return res
+        // }
+        // let b = copy(a);
+        // console.log(JSON.stringify(b, null, 2));
+
+        // instanceof Object 一切类型的父类型都是 object
+
+        //使用工厂函数创建对象
+        // function User(name) {
+        //     return {
+        //         name,
+        //         sayname() {
+        //             console.log(this.name)
+        //         }
+        //     }
+        // }
+        // let user = User('zs');
+        // user.sayname(); //zs
+
+        //使用构造函数创建对象
+        // function User(name) {
+        //     this.name = name;
+        //     this.sayname = function () {
+        //         console.log(this.name)
+        //     }
+        // }
+        // let zs = new User('zs');
+        // zs.sayname()
+
+
+        //严格模式下 this如果指向window  打印出来会是undefined
+
+        //js当中 所有类型都可以由 构造函数创建
+
+        // 抽象 利用闭包特性 防止外部修改类中的属性和方法
+        // function User(name) {
+        //     let data = { name };
+        //     let sayname = function () {
+        //         console.log(data.name)
+        //     }
+        //     this.name = data.name;
+        //     this.try = function () {
+        //         sayname()
+        //     }
+        // }
+        // let zs = new User('zs');
+        // zs.name = 'lisi';
+        // zs.try(); //zs
+
+        // 对象的属性特征
+        // let user = {
+        //     name: 'zs',
+        //     age: 18
+        // }
+        // console.log(JSON.stringify(Object.getOwnPropertyDescriptor(user, 'name'), null, 2)); //获取单一属性特征 
+        // console.log(JSON.stringify(Object.getOwnPropertyDescriptors(user), null, 2)); //获取全部属性特征 
+        // Object.defineProperty(user, 'name', {
+        //     "value": "zs",  //值
+        //     "writable": true, // 可修改
+        //     "enumerable": true, // 可遍历
+        //     "configurable": true // 可删除  可重新配置
+        // })
+        // Object.defineProperty(user, {
+        //     name: {
+        //         "value": "zs",  //值
+        //         "writable": true, // 可修改
+        //         "enumerable": true, // 可遍历
+        //         "configurable": true // 可删除  可重新配置
+        //     },
+        //     age: {
+        //         "value": "zs",  //值
+        //         "writable": true, // 可修改
+        //         "enumerable": true, // 可遍历
+        //         "configurable": true // 可删除  可重新配置
+        //     }
+        // })
+
+        // Object.preventExtensions(user);//不允许向对象中添加新属性
+        // if (Object.isExtensible(user)) {  //Object.isExtensible() 对象能添加新属性返回 true
+        //     user.site = '123';
+        //     console.log(user); //site属性不会被添加
+        // }
+
+        // 封闭对象 
+        // 不能往对象中添加属性 
+        // 不能删除对象
+        // 不能修改对象的属性特征
+        // Object.seal()
+        // Object.isSealed() //对象不封闭 返回true
+
+        // freeze 冻结 与封闭类似 属性不能修改
+        // Object.isFrozen()
+
+        // 访问器
+        // let user = {
+        //     data: { name: '后盾人', age: 10 },
+        //     set age(value) {
+        //         if (value < 0) {
+        //             throw new Error('年龄格式不正确');
+        //         }
+        //         this.data.age = value
+        //     },
+        //     get age() {
+        //         return this.data.age
+        //     }
+        // }
+        // user.age = 15
+        // console.log(user.age)
+
+        // let web = {
+        //     name: '',
+        //     url: '',
+        //     set site(value) {
+        //         [this.name, this.url] = value.split(',');
+        //     },
+        //     get getsite() {
+        //         console.log(`${this.name}的网址是${this.url}`)
+        //     }
+        // }
+        // web.site = "百度,www.baidu.com";
+        // web.getsite;
+
+        //访问器的优先级要高于普通操作
+
+        //利用 Syboml防止用户跳过访问器 直接修改对象属性
+        // const Data = Symbol();
+        // let user = {
+        //     [Data]: { name },
+        //     age: 10,
+        //     set name(value) {
+        //         this[Data].name = value
+        //     },
+        //     get name() {
+        //         return this[Data].name
+        //     }
+        // }
+        // user.name = 'zs';
+        // console.log(user)
+
+        // 构造函数 利用特征 实现访问器
+        // function User() {
+        //     let data = { name: '张三' };
+        //     Object.defineProperties(this, {
+        //         name: {
+        //             get() {
+        //                 return data.name
+        //             },
+        //             set(value) {
+        //                 if (value == '') {
+        //                     throw new Error('名称不能为空');
+        //                 }
+        //                 data.name = value
+        //             }
+        //         }
+        //     })
+        // }
+        // let zs = new User('张三')
+        // zs.name = '李四';
+        // console.log(zs.name)
+
+        // proxy代理拦截
+        // let a = { name: 'zs', age: '35' };
+        // let proxy = new Proxy(a, {
+        //     get(obj, property) {
+        //         // console.log(obj); //{name: "zs", age: "35"}  代理的对象
+        //         // console.log(property) //age 属性名
+        //         console.log(obj[property])
+        //     },
+        //     set(obj, property, value) {
+        //         obj[property] = value
+        //     }
+        // })
+        // proxy.age
+        // proxy.name = 'lisi'
+        // proxy.name
+
+        //代理控制函数
+        // function factorial(num) {
+        //     return num == 1 ? 1 : num * factorial(num - 1);
+        // }
+        // let proxy = new Proxy(factorial, {
+        //     apply(func, obj, args) {
+        //         console.log(func) //代理的函数
+        //         console.log(obj) // this
+        //         console.log(args) // 参数
+        //         //计算阶乘运行时间
+        //         console.time('run')
+        //         func.apply(this, args)
+        //         console.timeEnd('run')
+        //     }
+        // })
+        // console.log(proxy.apply(this, [5]))
+
+        //代理处理数组 截断
+        // let arr = [
+        //     { title: 'php在线自学课程', price: 100 }
+        // ]
+        // let proxy = new Proxy(arr, {
+        //     get(arr, key) {
+        //         console.log(arr)
+        //         console.log(key)
+        //         let title = arr[key].title
+        //         let len = 5;
+        //         // console.log(title.substr(0, len) + '.'.repeat(3))
+        //         title = title.length > len ? title.substr(0, len) + '.'.repeat(3) : title;
+        //         arr[key].title = title
+        //         console.log(title)
+        //         return arr;
+        //     }
+        // })
+        // console.log(proxy[0])
+
+        // let a = {
+        //     name: 'zs',
+        //     age: 19
+        // }
+        // console.log(JSON.stringify(a, ['name'], 2));
+        //第二个参数表示把那些参数转化为JSON
+        //第三个参数表示 制表位   添加这个参数后 json会自动格式化
+
+        //toJSON 自定义序列化之后的结果
+        // let a = {
+        //     name: 'zs',
+        //     age: 19,
+        //     toJSON: function () {
+        //         return {
+        //             name: this.name
+        //         }
+        //     }
+        // }
+        // console.log(JSON.stringify(a)) //{"name":"zs"}
+
+        //JSON 的第二个参数 可以在解析之后对数据进行处理
+        let a = {
+            name: 'zs',
+            age: 19
         }
-        oss({ username: 'admin' })
+        let obj = JSON.parse(JSON.stringify(a), (key, value) => {
+            if (key == 'name') {
+                value = `123${value}`;
+            }
+            return value;
+        })
+        console.log(obj); //{name: "123zs", age: 19}
     </script>
 </body>
 
