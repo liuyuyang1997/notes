@@ -177,7 +177,310 @@
 
         // this 为调用属性的对象
 
-        // 不要在 Object.prototype中追加方法  会导致代码不稳定·
+        // 不要在 Object.prototype中追加方法  会导致代码不稳定
+
+        // Object.create 与 __proto__
+        // let user = {
+        //     show() {
+        //         return this.name;
+        //     }
+        // }
+        // 1
+        // let b = Object.create(user); //设置b的原型为user
+        // b.name = 'zs';
+        // console.log(b.show()); //zs
+        // 2
+        // let b = Object.create(user, {
+        //     name: {
+        //         value: 'zs1'
+        //     }
+        // }); //设置b的原型为user
+        // console.log(b.show()); //zs
+        // Object.create 只能设置不能获取  __proto__都能
+        // __proto__  这个不是官方的 是浏览器厂商自己搞的
+        // let b = { name: 'pro' }
+        // b.__proto__ = user;
+        // console.log(b.show()); //pro
+        // console.log(b.__proto__); //user
+
+        // Object.setPrototypeOf 与 Object.getPrototypeOf
+        // let a = {
+        //     name: 'aaa', show() {
+        //         console.log(123)
+        //     }
+        // };
+        // let b = { name: 'bbb' };
+        // Object.setPrototypeOf(b, a); //设置b的原型为a
+        // b.show(); // 123
+        // console.log(Object.getPrototypeOf(b))
+
+
+        // __proto__  其实是 getter 和 setter  属性访问器
+        // let a = {
+        //     name: 'zs',
+        //     get proto() {
+        //         return this.name
+        //     },
+        //     set proto(obj) {
+        //         if (obj instanceof Object) {
+        //             this.name = obj
+        //         }
+        //     }
+        // }
+        // a.proto = { a: 123 }
+        // console.log(a.proto)
+
+        // 由于__proto__不是严格意义的属性 所以无法给他设置基本的属性值
+        // 但是可以通过 改变原型链 强行设置
+        // let a = Object.create(null);
+        // a.name = 666
+        // a.__proto__ = '123'
+        // console.dir(a);
+
+        //改变构造函数原型不是继承
+        // function User() { };
+        // User.prototype.name = function () {
+        //     console.log(787878)
+        // }
+        // function Admin() { };
+        // Admin.prototype = User.prototype; //此时 改变Admin 的原型  让a 使用 user的name方法
+        // Admin.prototype.show = function () { console.log('admin.show') }
+        // let a = new Admin()
+        // function Member() { }
+        // Member.prototype = User.prototype;
+        // Member.prototype.show = function () { console.log('member.show') }
+        // console.log(a)
+        // a.name()
+        // a.show(); //member.show 此时多个构造函数原型指向 user.prototype 导致相互覆盖
+
+        //继承是原型的继承
+        // 1 
+        // function User() { };
+        // User.prototype.name = function () {
+        //     console.log(787878)
+        // }
+        // function Admin() { };
+        // Admin.prototype.__proto__ = User.prototype; //此时 改变Admin 的原型  让a 使用 user的name方法
+        // Admin.prototype.show = function () { console.log('admin.show') }
+        // let a = new Admin()
+        // function Member() { }
+        // Member.prototype.__proto__ = User.prototype;
+        // Member.prototype.show = function () { console.log('member.show') }
+        // let member = new Member()
+        // a.name()
+        // a.show(); //admin
+        // member.show(); //member.show
+
+        // 2 创建一个新原型 在用这个原型去继承
+        // function User() { };
+        // User.prototype.name = function () {
+        //     console.log(787878)
+        // }
+        // function Admin() { };
+
+        // Admin.prototype = Object.create(User.prototype); //此时 改变Admin 的原型  让a 使用 user的name方法
+        // Admin.prototype.show = function () { console.log('admin.show') }
+        // //a.show is not a function  因为这个show方法写到原来的原型里去了 下一句代码 会将admin的原型改变成一个新对象 导致这个方法读不到
+        // let a = new Admin()
+        // function Member() { }
+        // Member.prototype = Object.create(User.prototype);
+        // Member.prototype.show = function () { console.log('member.show') }
+        // let member = new Member()
+        // a.name()
+        // a.show(); //admin
+        // member.show(); //member.show
+
+        //使用 Object.create() 实现继承 如果 在实例化之后再去继承
+        // 改变的是构造函数的原型  而实例化的对象 的原型 不会随之改变
+
+        //原型中的constructor属性中记录着构造函数
+        // function User() {
+        //     this.name = 'zs'
+        // }
+        // let zs = new User();
+        // let li = new zs.__proto__.constructor;  // zs.__proto__.constructor 也就是 User()
+        // console.log(li.name) //zs
+
+        //Object.create() 会导致constructor属性丢失  打印有值得原因 是 打印出了父级的属性
+        // 可以在 Object.cteated 之后 Admin.prototype.construstor 设置
+        // function User() {
+        //     this.name = 'zs'
+        // }
+        // function Admin() {
+        //     this.name = 'admin-name'
+        // }
+        // Admin.prototype = Object.create(User.prototype);
+        // let a = new Admin()
+        // console.log(a.name) //admin-name
+        // let b = new a.__proto__.constructor;
+        // console.log(b.name) //zs
+
+
+        // function User() {
+        //     this.name = 'zs'
+        // }
+        // function Admin() {
+        //     this.name = 'admin-name'
+        // }
+        // Admin.prototype = Object.create(User.prototype);
+        // Admin.prototype.constructor = Admin
+        // let a = new Admin()
+        // console.log(a) //admin-name
+        // let b = new a.__proto__.constructor;
+        // console.log(b.name) //zs
+
+        //继承后使 consturctor 不可遍历
+        // function User() {
+        //     this.name = 'zs'
+        // }
+        // function Admin() {
+        //     this.name = 'admin-name'
+        // }
+        // Admin.prototype = Object.create(User.prototype);
+        // Object.defineProperty(Admin.prototype, "consturctor", {
+        //     value: Admin,
+        //     enumerable: false
+        // })
+        // let a = new Admin()
+        // let b = new a.__proto__.constructor;
+        // console.log(a)
+        // for (key in a) {
+        //     console.log(key)
+        // }
+
+        //使用父类构造函数声明属性
+        // function User(name, age) {
+        //     this.name = name
+        //     this.age = age
+        // };
+        // function Admin(...args) {
+        //     User.apply(this, args)
+        // };
+
+        // function Member(...args) {
+        //     User.apply(this, args)
+        // };
+        // let admin = new Admin('管理员', 25);
+        // let member = new Member('会员', 13);
+        // console.log(admin)
+        // console.log(member)
+
+        //使用原型工厂封装继承
+        // function extend(son, father) {
+        //     son.prototype.__proto__ = Object.create(father.prototype);
+        //     Object.defineProperty(son.prototype, 'consturctor', {
+        //         value: son,
+        //         enumerable: false
+        //     })
+        // }
+        // function User(name, age) {
+        //     this.name = name
+        //     this.age = age
+        // };
+        // User.prototype.show = function () {
+        //     console.log(this.name + ' ' + this.age)
+        // }
+        // function Admin(...args) {
+        //     User.apply(this, args)
+        // };
+        // extend(Admin, User);
+        // function Member(...args) {
+        //     User.apply(this, args)
+        // };
+        // extend(Member, User);
+        // let admin = new Admin('管理员', 25);
+        // let member = new Member('会员', 13);
+        // admin.show()
+        // member.show()
+
+
+        //对象工厂实现继承
+        // function createObj(...args) {
+        //     let obj = Object.create(User.prototype);
+        //     User.apply(obj, args);
+        //     return obj;
+        // }
+        // function User(name, age) {
+        //     this.name = name
+        //     this.age = age
+        // };
+        // User.prototype.show = function () {
+        //     console.log(this.name + ' ' + this.age)
+        // }
+
+        // function admin(...args) {
+        //     return createObj(...args)
+        // };
+        // function member(...args) {
+        //     return createObj(...args)
+        // };
+        // let a = admin('管理员', 25);
+        // console.dir(a)
+        // a.show()
+        // let m = member('会员', 13);
+        // m.show()
+
+        // js中没有多继承 会导致我们把多个原本没有关系的方法 强行放在一个原型链当中
+
+        // mixin 混合功能实现多继承
+        function extend(son, father) {
+            son.prototype.__proto__ = Object.create(father.prototype);
+            Object.defineProperty(son.prototype, 'consturctor', {
+                value: son,
+                enumerable: false
+            })
+        }
+        //请求后台
+        let Ajax = {
+            ajax() {
+                return '请求后台';
+            }
+        }
+        //积分统计
+        let total = {
+            //积分统计功能在调用的时候需要先请求后台 也就是走 Ajax方法
+            // 需要把total 的原型绑定到 ajax上
+            __proto__: Ajax,
+            total() {
+                // console.log(this.__proto__.ajax() + ' 积分统计');
+                //this.__proto__ 系统提供了简介的写法 super
+                console.log(super.ajax() + ' 积分统计');
+            }
+        }
+        //收货地址
+        let adress = {
+            adress() {
+                console.log('收货地址');
+            }
+        }
+        function User(name, age) {
+            this.name = name
+            this.age = age
+        };
+        User.prototype.show = function () {
+            console.log(this.name + ' ' + this.age)
+        }
+        function Admin(...args) {
+            User.apply(this, args)
+        };
+        extend(Admin, User);
+        //这样些会出现很多重复代码
+        // Admin.prototype.ajax = Ajax.ajax;
+        // Admin.prototype.total = total.total;
+        // 使用Object.assign()
+        Admin.prototype = Object.assign(Admin.prototype, Ajax, total)
+        function Member(...args) {
+            User.apply(this, args)
+        };
+        extend(Member, User);
+        Member.prototype = Object.assign(Member.prototype, Ajax, total, adress)
+        let admin = new Admin('管理员', 25);
+        let member = new Member('会员', 13);
+        admin.show()
+        admin.ajax()
+        admin.total()
+        member.show()
+        member.adress()
     </script>
 </body>
 

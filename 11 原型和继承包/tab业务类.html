@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .top {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .button {
+            display: block;
+            width: 70px;
+            line-height: 30px;
+            border: 1px solid #000;
+            background: red;
+            text-align: center;
+        }
+
+        .session {
+            position: relative;
+            height: 120px;
+        }
+
+        .session .content {
+            width: 300px;
+            height: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: green;
+            padding: 10px;
+            display: none;
+        }
+
+        .session .content2 {
+            background: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tab">
+        <div class="top">
+            <span class="button">1</span>
+            <span class="button">2</span>
+        </div>
+        <div class="session">
+            <div class="content content1">1</div>
+            <div class="content content2">2</div>
+        </div>
+    </div>
+
+    <div class="tab2">
+        <div class="top">
+            <span class="button">1</span>
+            <span class="button">2</span>
+        </div>
+        <div class="session">
+            <div class="content content1">1</div>
+            <div class="content content2">2</div>
+        </div>
+    </div>
+</body>
+<script>
+    //继承
+    function extend(son, father) {
+        son.prototype = Object.create(father.prototype);
+        Object.defineProperty(son.prototype, 'consturctor', {
+            value: son,
+            enumerable: false
+        })
+
+    }
+    // Animation 中存放一些 显示隐藏 改变颜色的 方法
+    function Animation() { }
+    //显示
+    Animation.prototype.show = function () {
+        this.style.display = 'block';
+    }
+    //隐藏
+    Animation.prototype.hide = function () {
+        this.style.display = 'none';
+    }
+    // 改变颜色
+    Animation.prototype.changeColor = function (color) {
+        this.style.background = color;
+    }
+    let animation = new Animation()
+
+    // 创建选项卡类 Tab
+    function Tab(el, callback = null) {
+        //tab 选项卡面板
+        this.tab = document.querySelector(el);
+        // buttons 操作按钮
+        this.buttons = this.tab.querySelectorAll('.button');
+        // contents 显示区域
+        this.contents = this.tab.querySelectorAll('.content');
+        this.callback = callback
+    }
+    extend(Tab, Animation)
+    Tab.prototype.run = function () {
+        this.bindEvent() //绑定方法
+        this.init() // 初始化参数
+    }
+    // 初始化
+    Tab.prototype.init = function () {
+        this.buttons[0].click()
+    }
+    //切换tab
+    Tab.prototype.bindEvent = function () {
+        this.buttons.forEach((e, i) => {
+            e.addEventListener('click', () => {
+                this.reset()
+                this.changeColor.call(e, '#fff')
+                this.toshow(i)
+                if (this.callback) this.callback()
+            })
+        });
+    }
+    //重置按钮颜色
+    Tab.prototype.reset = function () {
+        this.buttons.forEach(item => {
+            this.changeColor.call(item, "red")
+        })
+    }
+    //隐藏所有面板
+    Tab.prototype.hideAll = function () {
+        this.contents.forEach(item => {
+            this.hide.call(item)
+        })
+    }
+    // 显示 面板
+    Tab.prototype.toshow = function (i) {
+        this.hideAll()
+        this.show.call(this.contents[i])
+    }
+    new Tab('.tab', callback).run()
+    new Tab('.tab2').run()
+    function callback() {
+        console.log('回调')
+    }
+</script>
+
+</html>
