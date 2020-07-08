@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 检查字符串中的数字 2种方法
+    // 1 字符串方法
+    // let str = '111ddasdas234sadfadsf888'
+    // let after = [...str].filter(item => !Number.isNaN(parseInt(item))).join('');
+    // console.log(after)
+    // 2正则表达式方法
+    // 可以看出正则表达式的方法更加 简便 优美
+    // console.log(str.match(/\d/g).join(''))
+
+    // 正则表达式的两种声明方法
+    // // 1 字面量方法
+    // let str = '12313qwe123';
+    // // 检查字符串中是否包括 字母u
+    // // 这种方法无法在正则表达式里写变量
+    // console.log(/u/.test(str)); //false 
+    // // 但是可以使用eval() 写入变量
+    // let a = 'q';
+    // console.log(eval(`/${a}/`).test(str)); //true
+
+    // // 2 对象方法创建
+    // let str = '12313qwe123';
+    // // 第一个参数是正则表达式 
+    // // 第二个参数是模式 g代表 全局检查
+    // let a = 'q'
+    // let reg = new RegExp(a, 'g');
+    // console.log(reg.test(str)); //true
+
+    //选择符的使用
+    // let str = '12313qwe123';
+    // console.log(/6|1/.test(str)); //true 正则表达式的 '|' 与 '||' 类似 只要有一个为true 则返回真
+    // console.log(/6|11/.test(str)); // false 选择符 判断的是竖线两侧的表达式 而不是两侧的单个字符
+    // // 判断座机号码所属
+    // let tel = '010-4657339';
+    // console.log(/^(024|010)\-\d{7}$/.test(tel));
+
+    // 转义
+    // let price = 12.12
+    // console.log(/^\d+\.?\d+$/.test(price))
+    // //对象声明正则 需要多转义一次
+    // console.log('\d' === 'd');  //true
+    // let reg = new RegExp('^\\d+\\.?\\d+$'); //这里的参数是一个字符串 \d会被自动转换为d 所以转义两次
+    // console.log(reg.test(price));
+
+
+
+    // 正则.test(字符串)  有返回真 没有返回假
+    // 字符串.match(正则) 有返回 匹配到的内容 返回类型是数组   没有返回null
+    // let a = '111qqq5454qqq';
+    // console.log(a.match(/\d{3,4}/g)); //["111", "5454"] 
+
+    // 原子表匹配中文
+    // let str = `
+    // 	张三:024-4657339
+    // `;
+    // console.log(str.match(/[^\s\d-:]+/g)[0]);
+    // let str = `123  
+
+
+    // 字符边界约束
+    // ^ 开头  $ 结尾
+
+    // 匹配模式
+    // g 全局匹配
+    // i 不区分大小写
+    // s 将字符串视为单行 此时 换行被视为 普通空白  '.' 可以匹配出所有字符
+
+    // 原子表 []  原子组 ()
+    // [^]  原子表开头带^ 代表除了原子表中的内容
+    // [a-z] 代表所有小写字母
+    // let reg = /[123456]/; //代表 1或者2或者3……
+    // let reg2 = /(12|34)/; //代表 12 或 34
+
+	// 		 12312`
+    // console.log(str.match(/.+/))
+
+    // . 除换行外任何字符
+    // 元字符
+    // 所有大写元字符均表示与小写相反的意思
+    // \d 代表数字 0-9
+    // \w 字母 数字 下划线 
+    // \s 空白 空格 制表符 换行
+
+    // 重复匹配
+    // + 匹配1个 或多个
+    // ? 0个 或多个
+</script>
+
+</html>
