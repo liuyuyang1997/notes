@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    //异步加载图片 体验js任务操作
+    // function loadImg(src, resolve, reject) {
+    //     let image = new Image();
+    //     image.src = src;
+    //     image.onload = () => {
+    //         resolve(image)
+    //     };
+    //     image.onerror = reject;
+    // }
+    // loadImg('./images/1.jpg',
+    //     (image) => {
+    //         console.log('加载成功');
+    //         document.body.appendChild(image)
+    //     },
+    //     () => {
+    //         console.log('加载失败');
+    //     });
+    // console.log('代码');
+    // // 代码
+    // // 加载成功
+
+    //定时器的任务轮询
+    // function interval(callback, delay) {
+    //     let id = setInterval(() => callback(id), delay);
+    // }
+    // interval(function (id) {
+    //     console.log(id)
+    // }, 1000)
+
+    // Promise 微任务处理机制
+    // 三种状态  "pending" 准备    "resolved" 成功   "rejected" 拒绝
+    // new Promise((resolve, reject) => {
+    //     resolve('成功');
+    // }).then(value => {
+
+    // }, reason => {
+
+    // })
+
+    // 微任务队列 要 先与 宏任务队列 执行
+
+    // 宏任务与微任务执行顺序
+    // setTimeout(() => {
+    //     console.log(1); //宏任务
+    // })
+    // new Promise(resolve => {
+    //     resolve()
+    //     console.log("promise") //这句代码会同步执行
+    // }).then(value => { console.log('成功') }); // .then 中的才是微任务
+    // console.log(123)
+    // /*
+    //     打印顺序
+    //     // promise
+    //     // 123
+    //     // 成功
+    //     // 1
+    // */
+
+    // Promise状态是单向 不可逆的 执行了一个状态  后面的状态改变不会执行
+
+    // 只处理错误 不处理成功
+    // new Promise((resolve, reject) => {
+    //     reject('拒绝')
+    // }).then(null, reason => { //根据传参规则 这里的第一个参数 需要随便传一个
+    //     console.log('error' + reason); //error拒绝
+    // })
+
+    // 后面的then会对前面的promise 进行处理 
+    // then 本身会返回一个 成功的promise  可以通过 return  返回一个 自定义的Promise
+    // let p1 = new Promise((resolve, reject) => {
+    //     resolve("成功");
+    // }).then(value => {
+    //     return '123'
+    // },
+    //     reason => console.log(444)
+    // )
+    //     .then(value => {
+    //         // 这个.then 会执行上一个 promise方法 并且只有上一个 promise方法 成功了 这个才执行
+    //         console.log('第二个.then'); //第二个.then 
+    //     })
+
+    // 其他类型的 promise 封装
+    // 1 then 方法
+    // let p1 = new Promise((resolve, reject) => {
+    //     resolve('第一个');
+    // })
+    //     .then(value => {
+    //         return {
+    //             then(resolve, reject) {
+    //                 resolve("这是对象")
+    //             }
+    //         }
+    //     }, reason => { })
+    //     .then(value => {
+    //         console.log(value)
+    //     })
+
+    // 2 具有then方法的类
+    // let p1 = new Promise((resolve, reject) => {
+    //     resolve('第一个');
+    // })
+    //     .then(value => {
+    //         class Hd {
+    //             then(resolve, reject) {
+    //                 resolve("这是对象")
+    //             }
+    //         }
+    //         return new Hd;
+    //     }, reason => { })
+    //     .then(value => {
+    //         console.log(value)
+    //     })
+
+    // 3 静态方法
+    // let p1 = new Promise((resolve, reject) => {
+    //     resolve('第一个');
+    // })
+    //     .then(value => {
+    //         return class {
+    //             static then(resolve, reject) {
+    //                 resolve("静态方法")
+    //             }
+    //         };
+    //     }, reason => { })
+    //     .then(value => {
+    //         console.log(value)
+    //     })
+
+    // 之前写的promise都会立即执行 
+    // 利用 函数 可以防止 立即执行
+    // function request() {
+    //     return new Promise((resolve, reject) => {
+    //         resolve('resolve');
+    //     })
+    // }
+
+    // request().then(value => {
+    //     console.log(value); //resolve
+    // })
+
+
+    // 在promise 中直接抛出错误 throw new Error()  也会在 reason 中执行
+
+    // catch 可以抓取到所有promise中的错误 写这个 reason 就不用写了
+    // reason 错误回调 优先级要高于 catch
+    // cartch 建议写到结尾  
+</script>
+
+</html>
