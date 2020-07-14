@@ -91,6 +91,8 @@
         // console.log(arr.includes(2)); //true includes返回的是布尔值
 
         //find 与 findIndex 方法
+        // find 返回为true 的元素  没有符合的返回 undefined
+        // findIndex 返回的是索引   没有符合的返回 -1
         // let arr = [6, 1, 2, 3, 4, 5, 6];
         // let item = arr.find(item => {
         //     return item == 2;
@@ -127,35 +129,29 @@
         // })
         // console.log(arr) //[1, 2, 3, 4, 5, 6, 6]  从小到大   b-a 从大到小
 
-        // let arr = [1, 2, 3, 4, 5, 6];
-        // for (let val of arr) {
-        //     val = val + 1
-        // }
-        // console.log(arr); //[1, 2, 3, 4, 5, 6]
-
         // every 返回值为假 跳出循环
         // some 返回真 跳出循环
         // filter 返回值 是返回真的元素构成的数组
         // map 返回值是什么 新数组中就有什么   不会改变原数组（数组项不是引用类型）
 
         //reduce
-        // 1 数组中1出现了几次
-        let arr = [1, 2, 3, 4, 1, 1, 1, 3, 8];
-        console.log(arrcount(arr, 1)) //4
+        // // 1 数组中1出现了几次
+        // let arr = [1, 2, 3, 4, 1, 1, 1, 3, 8];
+        // console.log(arrcount(arr, 1)) //4
 
-        function arrcount(arr, ele) {
-            return arr.reduce((total, val) => {
-                total += val == ele ? 1 : 0
-                return total
-            }, 0)
-        }
-        function max(arr) {
-            return arr.reduce((pre, val) => {
-                return pre > val ? pre : val
-            })
-        }
-        //2 取出数组中的最大项
-        console.log(max(arr)) //8
+        // function arrcount(arr, ele) {
+        //     return arr.reduce((total, val) => {
+        //         total += val == ele ? 1 : 0
+        //         return total
+        //     }, 0)
+        // }
+        // function max(arr) {
+        //     return arr.reduce((pre, val) => {
+        //         return pre > val ? pre : val
+        //     })
+        // }
+        // //2 取出数组中的最大项
+        // console.log(max(arr)) //8
     </script>
 </body>
 
