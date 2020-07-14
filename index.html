@@ -8,18 +8,40 @@
     <style>
     </style>
 </head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body {
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        transition: all 1s;
+    }
+</style>
 
 <body>
-    <div>666</div>
-    <div>22222222222</div>
+
 </body>
 <script>
-    const div = document.querySelectorAll('div');
-    div.forEach(item => {
-        item.addEventListener('click', function () {
-            this.style.display = 'none'
-        })
-    })
+    class Color {
+        constructor(el) {
+            this.el = el;
+            this.colors = ['yellow', 'red', 'green']
+        }
+        run() {
+            setInterval(() => {
+                let random = Math.floor(Math.random() * this.colors.length);
+                this.el.style.background = this.colors[random];
+            }, 1000);
+        }
+    }
+    let body = new Color(document.body);
+    body.run()
+
 </script>
 
 </html>
