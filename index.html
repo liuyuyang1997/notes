@@ -9,38 +9,26 @@
     </style>
 </head>
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-    }
 
-    html,
-    body {
-        background: #fff;
-        width: 100%;
-        height: 100%;
-        transition: all 1s;
-    }
 </style>
 
-<body>
 
+<body>
 </body>
+
 <script>
-    class Color {
-        constructor(el) {
-            this.el = el;
-            this.colors = ['yellow', 'red', 'green']
-        }
-        run() {
-            setInterval(() => {
-                let random = Math.floor(Math.random() * this.colors.length);
-                this.el.style.background = this.colors[random];
-            }, 1000);
-        }
+    let a = {
+        name: 'zs',
+        age: 19,
+        sex: 1,
     }
-    let body = new Color(document.body);
-    body.run()
+    let obj = JSON.parse(JSON.stringify(a), (key, value) => {
+        if (key == 'name') {
+            value = 7487
+        }
+        return value
+    })
+    console.log(obj)
 
 </script>
 

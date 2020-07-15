@@ -12,7 +12,7 @@
         // let func = new Function('title', 'console.log(title)');
         // func('hello'); //hello
 
-        //具名函数有变量提升 匿名函数没有 
+        // 具名函数有变量提升 匿名函数没有 
 
         // function sum(...args) {
         //     return args.reduce((a, b) => {
@@ -84,7 +84,7 @@
         // }
         // console.log(sum(1, 2, 1, 4, 5)) //13
 
-        //阶乘
+        // 阶乘
         // function factorial(i) {
         //     let factorial = i
         //     for (let j = factorial - 1; j > 0; j--) {
@@ -94,13 +94,13 @@
         // }
         // console.log(factorial(4))
 
-        //递归思想实现阶乘
+        // 递归思想实现阶乘
         // function factorial(num) {
         //     return num == 1 ? 1 : num * factorial(--num);
         // }
         // console.log(factorial(3));//6
 
-        //递归思想处理累加
+        // 递归思想处理累加
         // function sum(...argu) {
         //     if (argu.length == 0) {
         //         return 0;
@@ -109,19 +109,19 @@
         // }
         // console.log(sum(1, 2, 3))
 
-        //优化上述操作
+        // 优化上述操作
         // function sum(...argu) {
         //     return argu.length == 0 ? 0 : argu.pop() + sum(...argu)
         // }
         // console.log(sum(1, 2, 3))
 
-        //递归方法实现倒三角
+        // 递归方法实现倒三角
         // function star(num) {
         //     return num == 0 ? '' : document.write('*'.repeat(num) + '<br/>') + star(--num);  //字符串.repeat(n) 字符串重复n次
         // }
         // star(5)
 
-        //利用递归实现数组项 +100
+        // 利用递归实现数组项 +100
         // let lessons = [{ lesson: 'js', click: 15 }, { lesson: 'html', click: 26 }, { lesson: 'css', click: 78 }];
         // function addClick(arr, num = 100, i = 0) {
         //     if (i == arr.length) {
@@ -138,7 +138,7 @@
         // }
         // console.log(sum(1, 2, 3))
 
-        //this 指向问题
+        // this 指向问题
         // let obj = {
         //     name: 'zs',
         //     sayname: function () {
@@ -150,12 +150,12 @@
         // 全局环境下 this 与window 一致
         // console.log(this == window) //true
 
-        //对象方法中的函数 this 指向 是window
+        // 对象方法中的函数 this 指向 是window
         // let lesson = {
         //     site: 'houdunren',
         //     lists: ['js', 'css', 'html'],
         //     show() {
-        //         return this.lists.map(item => {
+        //         return this.lists.map(function(item){
         //             return `${this.site}-${item}`
         //         }, this)
         //     }
@@ -223,7 +223,7 @@
         // let user = new User;
         // console.log(user.get({ name: '张三', age: '17' }));
 
-        //构造函数方法继承
+        // 构造函数方法继承
         // function request() {
         //     this.get = function (params) {
         //         let str = Object.keys(params).map(k => {
@@ -245,7 +245,7 @@
         // let user = new User;
         // console.log(user.get({ name: '张三', age: '17' }));
 
-        // bind  bind不会立即执行 而是后返回一个新方法
+        // bind  bind不会立即执行 而是 返回一个新方法
         function hd(a, b) {
             return this.f + a + b;
         }
