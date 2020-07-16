@@ -10,14 +10,14 @@
 <body>
 
     <script>
-        //没有原型的对象
+        // 没有原型的对象
         // 完全数据字典对象
         // let hd = Object.create(null, {
         //     name: { value: 'zs' }
         // })
         // console.log(hd)
 
-        //原型方法与对象方法优先级  就近原则
+        // 原型方法与对象方法优先级  就近原则
         // let hd = {
         //     show() {
         //         console.log(111)
@@ -195,7 +195,7 @@
         //         value: 'zs1'
         //     }
         // }); //设置b的原型为user
-        // console.log(b.show()); //zs
+        // console.log(b.show()); //zs1
         // Object.create 只能设置不能获取  __proto__都能
         // __proto__  这个不是官方的 是浏览器厂商自己搞的
         // let b = { name: 'pro' }
@@ -344,7 +344,7 @@
         // let a = new Admin()
         // let b = new a.__proto__.constructor;
         // console.log(a)
-        // for (key in a) {
+        // for (let key in a) {
         //     console.log(key)
         // }
 
