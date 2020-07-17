@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,40 +18,30 @@
 </body>
 
 <script>
-    class Common {
-        sum() {
-            return this.data.reduce((t, l) => t + l.price, 0)
-        }
-        getByKeys(keys) {
-            return this.data.filter(item => item.title.includes(keys)) //fliter 会返回 为真的项目 构成的数组
-        }
-    }
-    class Controler extends Common { }
-    class Lessons extends Controler {
-        constructor(data) {
-            super();
-            this.data = data
-        }
-        info() {
-            return {
-                total: super.sum(),
-                data: this.data
-            }
-        }
-        getByKeys(keys) {
-            return super.getByKeys(keys).map(item => item.title) //map会返回 执行结构后的项 构成的数组
-        }
-    }
     let lessons = [
-        { title: 'php', price: 100 },
-        { title: 'js', price: 200 },
-        { title: 'css', price: 300 }
+        { title: 'php', price: 100, click: 15 },
+        { title: 'js', price: 200, click: 88 },
+        { title: 'css', price: 300, click: 45 }
     ]
-    let a = new Lessons(lessons);
-    console.log(a.sum()) //600
-    console.log(a.info()) //{total: 600, data: Array(3)}
-    console.log(a.getByKeys('s')) // [{title: "js", price: 200},{title: "css", price: 300}]
-    //["js", "css"]
+    class Lesson {
+        constructor(data) {
+            this.lessons = data
+        }
+        get data() {
+            return this.lessons
+        }
+    }
+    let Tools = {
+        max(key) {
+            return this.data.sort((a, b) => b[key] - a[key])[0]
+        }
+    }
+
+    Object.assign(Lesson.prototype,Tools)
+    let a = new Lesson(lessons);
+
+    console.log(a.max('price'))
+    
 </script>
 
 </html>
