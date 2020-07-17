@@ -28,31 +28,32 @@
     // console.log(a.name) //zs
 
     // 对象属性声明
-    // class User {
-    //     age = 20;
-    //     constructor(name) {
-    //         this.name = name
-    //     }
-    //     changeAge(age) {
-    //         this.age = age
-    //     }
-    // }
-    // let a = new User('张三');
-    // a.changeAge(22);
-    // console.log(a); //{age: 22, name: "张三"}
+    class User {
+        age = 20;
+        constructor(name) {
+            this.name = name
+        }
+        changeAge(age) {
+            this.age = age
+        }
+    }
+    let a = new User('张三');
+    a.changeAge(22);
+    console.log(a); //{age: 22, name: "张三"}
 
     // for in 方法遍历对象 会找它的原型链
-    // class User {
-    //     constructor(name) {
-    //         this.name = name
-    //     }
-    //     show() { }
-    // }
-    // let a = new User('zs')
-    // console.log(Object.getOwnPropertyDescriptor(User.prototype, 'show')); //其中 enumerable: false 默认是不可遍历
-    // for (key in a) {
-    //     console.log(key) //name
-    // }
+    // class类 构造出的对象 方法是不可遍历的
+    class User {
+        constructor(name) {
+            this.name = name
+        }
+        show() { }
+    }
+    let a = new User('zs')
+    console.log(Object.getOwnPropertyDescriptor(User.prototype, 'show')); //其中 enumerable: false 默认是不可遍历
+    for (key in a) {
+        console.log(key) //name
+    }
 
     // function User(name) {
     //     this.name = 'zs';
@@ -72,68 +73,68 @@
     // }
 
     //对象属性 与 静态属性
-    // function Web(name) {
-    //     this.name = name;
-    // }
-    // Web.name = 'webweb'
-    // let a = new Web('zs');
-    // console.log(a.name); //zs 对象属性
-    // console.log(Web.name); //Web 构造函数的静态属性
+    function Web(name) {
+        this.name = name;
+    }
+    Web.name = 'webweb'
+    let a = new Web('zs');
+    console.log(a.name); //zs 对象属性
+    console.log(Web.name); //Web 构造函数的静态属性
 
     // class 中的静态属性
-    // class Request {
-    //     static host = 'http://www.123.com'; //静态属性
-    //     // 像是请求后台接口的host地址是固定的 并不是每一个对象特有的 设置为静态属性最合适
-    //     api(url) {
-    //         return Request.host + `/${url}`
-    //     }
-    // }
-    // let obj = new Request();
-    // console.log(obj.api('banner'));//http://www.123.com/banner
-    // console.log(obj.host); //undefined 静态属性是构造函数的属性 对象中访问不到
+    class Request {
+        static host = 'http://www.123.com'; //静态属性
+        // 像是请求后台接口的host地址是固定的 并不是每一个对象特有的 设置为静态属性最合适
+        api(url) {
+            return Request.host + `/${url}`
+        }
+    }
+    let obj = new Request();
+    console.log(obj.api('banner'));//http://www.123.com/banner
+    console.log(obj.host); //undefined 静态属性是构造函数的属性 对象中访问不到
 
     // 静态方法与静态属性类似
-    // class Admin {
-    //     constructor(name, age, sex) {
-    //         this.name = name
-    //         this.age = age
-    //         this.sex = sex
-    //     }
-    //     static create(...args) {
-    //         return new this(...args)
-    //     }
-    // }
-    // let user = Admin.create('张三', '22', '男'); //调用 create 方法的对象 Admin 就是this
-    // console.log(user)
+    class Admin {
+        constructor(name, age, sex) {
+            this.name = name
+            this.age = age
+            this.sex = sex
+        }
+        static create(...args) {
+            return new this(...args)
+        }
+    }
+    let user = Admin.create('张三', '22', '男'); //调用 create 方法的对象 Admin 就是this
+    console.log(user)
 
     // 使用静态方法 查找最贵课程 计算课程总价
-    // let lessons = [
-    //     { name: 'php', price: 200 },
-    //     { name: 'js', price: 100 },
-    //     { name: 'css', price: 300 }
-    // ]
-    // class Lesson {
-    //     constructor(model) {
-    //         this.model = model
-    //     }
-    //     get price() {
-    //         return this.model.price
-    //     }
-    //     static createBatch(lessons) {
-    //         return lessons.map(v => new this(v))
-    //     }
-    //     static maxPrice(arr) {
-    //         return arr.sort((a, b) => b.price - a.price)[0].price
-    //     }
-    //     static total(arr) {
-    //         return arr.reduce((t, v) => t + v.price * 1, 0)
-    //     }
-    // }
-    // let le = Lesson.createBatch(lessons);
-    // let max = Lesson.maxPrice(le);
-    // console.log(max); //300
-    // let total = Lesson.total(le);
-    // console.log(total) //600
+    let lessons = [
+        { name: 'php', price: 200 },
+        { name: 'js', price: 100 },
+        { name: 'css', price: 300 }
+    ]
+    class Lesson {
+        constructor(model) {
+            this.model = model
+        }
+        get price() {
+            return this.model.price
+        }
+        static createBatch(lessons) {
+            return lessons.map(v => new this(v))
+        }
+        static maxPrice(arr) {
+            return arr.sort((a, b) => b.price - a.price)[0].price
+        }
+        static total(arr) {
+            return arr.reduce((t, v) => t + v.price * 1, 0)
+        }
+    }
+    let le = Lesson.createBatch(lessons);
+    let max = Lesson.maxPrice(le);
+    console.log(max); //300
+    let total = Lesson.total(le);
+    console.log(total) //600
 
     // class Request {
     //     constructor(data) {
