@@ -1,0 +1,216 @@
+ <!DOCTYPE html>
+<html>
+
+<head>
+	<title>五子棋</title>
+	<meta data-vue-meta="true" http-equive="Content-Type" content="text/html" charset="utf-8"/>
+<style>
+body{
+	margin:0;
+	background: #ccc;
+}
+canvas{
+	width: 450px;
+	height: 450px;
+	background: #fff;
+	margin:50px auto;
+	display: block;
+}
+</style>
+</head>
+
+<body>
+	<canvas id="canvas" width="450" height="450"></canvas>
+</body>
+<script type="text/javascript">
+	/*
+	提笔到某个位置
+	描述绘制路径
+	开始绘制
+	提笔
+	 */
+	var canvas = document.querySelector('#canvas');
+	/*获取canvas元素  
+		querySelector 类似与css中的选择器 可以选择id class…… 
+		选择满足条件的第一个
+		方便 效率低
+	*/
+	var ctx = canvas.getContext('2d'); //获取绘制环境
+	var chesscolor = ['black','white']; //设置颜色表
+	var step =0;
+	var maparr = [];
+
+	for(var i=0;i<14;i++){
+		maparr[i]=[];
+		for(var j=0;j<14;j++){
+			maparr[i][j]=0;
+		}
+	}
+	
+
+//绘制棋盘
+	for(var i=1;i<15;i++){
+		ctx.moveTo(30*i,30);
+		ctx.lineTo(30*i,420);
+		ctx.moveTo(30,30*i);
+		ctx.lineTo(420,30*i);		
+	}
+	ctx.stroke();//开始绘制 将之前全部的路径绘制一次  描轮廓绘制法
+
+
+//画棋子函数
+	function drowchess(x,y,color){
+		//传入一个颜色，绘制一个棋子
+		ctx.fillStyle = color;
+		ctx.beginPath();//提笔 重新开始绘制
+		ctx.arc(x,y,15,0,Math.PI*2,false);//描述绘画路径 画圆 圆心坐标x，y ，半径r，
+		ctx.fill() //填充绘制法
+		ctx.stroke();
+	}
+
+//点击时刻 绘制棋子 微调落子位置 记录落子信息 
+	canvas.addEventListener('click',function(e){
+		var dx = Math.floor((e.offsetX+15)/30)*30; //Math.floor 向下取整  自瞄系统
+		var dy = Math.floor((e.offsetY+15)/30)*30;
+
+		if(dx==0 || dy==0 || dx==450 || dy==450){
+			return;
+		}
+
+		if(maparr[dx/30-1][dy/30-1]==0){
+			drowchess(dx,dy,chesscolor[step%2]);
+			maparr[dx/30-1][dy/30-1]=chesscolor[step%2];
+			checkwinX(dx/30-1,dy/30-1,chesscolor[step%2]);
+			checkwinY(dx/30-1,dy/30-1,chesscolor[step%2]);
+			checkwinM(dx/30-1,dy/30-1,chesscolor[step%2]);
+			checkwinZ(dx/30-1,dy/30-1,chesscolor[step%2]);
+			step++;
+		}	
+	})
+
+	function checkwinX(x,y,color){
+		var count=0;
+		for(var i=1;i<5;i++){
+			if(x+i>=14){
+				break;
+			}else if(maparr[x+i][y]==color){
+				count++;
+			}else{
+				break;
+			}
+		}
+
+		for(var i=1;i<5;i++){
+			if(x-i<0){
+				break;
+			}else if(maparr[x-i][y]==color){
+				count++;
+			}else{
+				break;
+			}
+		}
+		if(count+1>4){
+			 alert(color+" "+"win！！！");
+		}
+	}
+
+	function checkwinY(x,y,color){
+		var count=0;
+		for(var i=1;i<5;i++){
+			if(maparr[x][y+i]==color){
+				count++;
+			}else{
+				break;
+			}
+		}
+
+		for(var i=1;i<5;i++){
+			if(maparr[x][y-i]==color){
+				count++;
+			}else{
+				break;
+			}
+		}
+		if(count+1>4){
+			 alert(color+" "+"win！！！");
+		}
+	}
+	
+	function checkwinM(x,y,color){
+		//M+
+		var count=0;
+		for(var i=1;i<5;i++){
+			if(x+i>=14 || y-i<0){
+				break;
+			}else if(maparr[x+i][y-i]==color){
+				count++;
+			}else{
+				break;
+			}
+		}
+
+
+		//M-
+		for(var i=1;i<5;i++){
+			if(x-i<0 || y+i>=14){
+				break;
+			}else if(maparr[x-i][y+i]==color){
+				count++;
+			}else{
+				break;
+			}
+		}
+		if(count+1>4){
+			 alert(color+" "+"win！！！");
+		}
+	}
+
+
+	function checkwinZ(x,y,color){
+		//Z+
+		var count=0;
+		for(var i=1;i<5;i++){
+			if(x-i<0 || y-i<0){
+				break;
+			}else if(maparr[x-i][y-i]==color){
+				count++;
+			}else{
+				break;
+			}
+		}
+
+
+		//Z-
+		for(var i=1;i<5;i++){
+			if(x+i>=14 || y+i>=14){
+				break;
+			}else if(maparr[x+i][y+i]==color){
+				count++;
+			}else{
+				break;
+			}
+		}
+		if(count+1>4){
+			 alert(color+" "+"win！！！");
+		}
+	}
+	 /*canvas: 画布可以被js操作 画板=>图片（尺寸数据。修改尺寸不是修改样式）
+		
+		制作流程
+			1.绘制棋盘
+				1.1 绘制直线的操作
+			2.绘制棋子
+				2.1 如何绘制棋子
+				2.2 如何进行交互，点击下棋
+				2.3 交换手，一人一次
+				2.4 落子点问题(棋子必须下到交叉点)，自瞄系统
+				2.5 友军判断 下过棋的地方不能在下子  记录棋盘状态
+			3.游戏胜负判断
+
+			五子棋胜负判断核心原理 
+				当前下的棋子参与到胜负判断之中（判断点），并且此时 下棋的人 要么赢 要么不赢 
+				
+				一条线上连续的同颜色棋子超过5个 获胜
+	 */
+</script>
+</html>
