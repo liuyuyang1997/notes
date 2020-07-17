@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title></title>
+</head>
+
+<body>
+
+	<div class="content">
+		abcdefabc
+	</div>
+
+	<script type="text/javascript">
+		// 复习替换字符串中的内容
+		// console.log('abc1'.replace(/\w/g,'q'))
+		// console.log('abc'.replace(/\w/g, str=>{
+		// 	return '替换为';
+		// }))
+		let con = prompt('请输入想高亮的字符');
+		let div = document.querySelector('.content');
+		let reg = new RegExp(con, 'g')
+		div.innerHTML = div.innerHTML.replace(reg, item => { //这里的参数item代表第一个参数
+			return `<span style="color:red">${item}</span>`;
+		})
+	</script>
+</body>
+
+</html>

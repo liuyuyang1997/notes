@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 检查字符串中的数字 2种方法
+    // 1 字符串方法
+    // let str = '111ddasdas234sadfadsf888'
+    // let after = [...str].filter(item => !Number.isNaN(parseInt(item))).join('');
+    // console.log(after)
+    // 2正则表达式方法
+    // 可以看出正则表达式的方法更加 简便 优美
+    // console.log(str.match(/\d/g).join(''))
+
+    // 正则表达式的两种声明方法
+    // // 1 字面量方法
+    // let str = '12313qwe123';
+    // // 检查字符串中是否包括 字母u
+    // // 这种方法无法在正则表达式里写变量
+    // console.log(/u/.test(str)); //false 
+    // // 但是可以使用eval() 写入变量
+    // let a = 'q';
+    // console.log(eval(`/${a}/`).test(str)); //true
+
+    // // 2 对象方法创建
+    // let str = '12313qwe123';
+    // // 第一个参数是正则表达式 
+    // // 第二个参数是模式 g代表 全局检查
+    // let a = 'q'
+    // let reg = new RegExp(a, 'g');
+    // console.log(reg.test(str)); //true
+
+    // 原子表匹配中文
+    // let str = `
+    // 	张三:024-4657339,
+    // 	李四:024-4657339,
+    // `;
+    // // console.log(str.match(/[^\s\d:\-,]+/g)) // ["张三", "李四"]
+    // // 另一种方法
+    // console.log(str.match(/\p{sc=Han}+/gu)) // ["张三", "李四"]
+
+    //选择符的使用
+    // let str = '12313qwe123';
+    // console.log(/6|1/.test(str)); //true 正则表达式的 '|' 与 '||' 类似 只要有一个为true 则返回真
+    // console.log(/6|11/.test(str)); // false 选择符 判断的是竖线两侧的表达式 而不是两侧的单个字符
+    // // 判断座机号码所属
+    // let tel = '010-4657339';
+    // console.log(/^(024|010)\-\d{7}$/.test(tel));
+
+    // 转义
+    // let price = 12.12
+    // console.log(/^\d+\.?\d+$/.test(price))
+    // //对象声明正则 需要多转义一次
+    // console.log('\d' === 'd');  //true
+    // let reg = new RegExp('^\\d+\\.?\\d+$'); //这里的参数是一个字符串 \d会被自动转换为d 所以转义两次
+    // console.log(reg.test(price));
+
+    // 匹配所有字符
+    // // 匹配所有内容 第一个想到的是 .
+    // let str = `
+    //     123
+    //     456
+    // `
+    // // 由于.无法匹配换行  导致匹配出来的内容被分成了三个
+    // console.log(str.match(/.+/g)); //["        123", "        456", "    "];
+    // console.log(str.match(/.+/gs)); //可以采用 s模式 忽略换行符 
+    // // //利用原子表 和 大小写元字符 来实现
+    // // console.log(str.match(/[\d\D]+/));
+
+
+    // 多行字符串处理
+    // let str = `
+    // 			# js,200rmb #
+    // 			# php,70rmb #
+    // 			# php#1323123
+    // 			# html,10rmb #
+    // 		`
+    // //m 多行匹配修正符 会把字符串每一行 进行分别对待
+    // let arr = str.match(/^\s+#\s.+#$/gm).map(item => {
+    //     item = item.replace(/^\s+#\s+/, '').replace(/\s+#/, '');
+    //     [name, price] = item.split(',');
+    //     return { name, price }
+    // });
+    // console.log(JSON.stringify(arr, null, 2))
+
+    //汉字与字符属性
+    // let hd = "adsfadsf.撒旦法发……";
+    // console.log(hd.match(/\p{L}/gu))
+    // console.log(hd.match(/\p{P}/gu)); //[".", "…", "…"]
+    // // Script 简写sc   语言系统
+    // console.log(hd.match(/\p{sc=Han}/gu)); //["撒", "旦", "法", "发"]
+
+    // 匹配宽字节  有些特殊字符一个字符不是两字节 而是多个字节
+    // let str = "𝒳𝒴";
+    // console.log(str.match(/[𝒳𝒴]/)); //"�"
+    // console.log(str.match(/[𝒳𝒴]/u)); //"𝒳"
+
+    // lastIndex 属性
+    // let str = 'a';
+    // let reg = /\w/g;
+    // // console.log(str.match(reg)); //["a", "b", "c", "d", "e", "f", "g"] 没有看见索引等属性
+    // // console.log(reg.lastIndex); //0
+    // // console.log(reg.exec(str)); //["a", index: 0, input: "abcdefg", groups: undefined]
+    // // console.log(reg.lastIndex) //1 每检查过一次 这个属性自动加1
+    // // console.log(reg.exec(str)); //["b", index: 1, input: "abcdefg", groups: undefined]
+    // while (res = reg.exec(str)) { //检测不到返回 false  跳出循环
+    //     console.log(res)
+    // }
+
+    //y 模式
+    // //全局 匹配 从字符串的第一个开始匹配 不符合则不再继续匹配
+    // // y 模式的效率要高于 g 模式
+    // let str = 'qq:111111111,222222222222,444444上的范德萨发的说法sad范德萨 大富士达方式的';
+    // let reg = /(\d+),?/y;
+    // // console.log(reg.exec(str)); //null 因为字符串第一个字符 水 不是数字
+    // reg.lastIndex = 3;
+    // let res = []
+    // while (a = reg.exec(str)) res.push(a[1])
+    // console.log(res); //["111111111", "222222222222", "444444"]
+
+    // 区间匹配
+    // [0-9]  代表0到9之间的所有数字  这个必须是升序  [9-0] 报错
+    // [a-z]
+
+    // 原子表中的字符不会解析
+    // let str = "(123456).+";
+    // console.log(str.match(/[().+]/g)); //["(", ")", ".", "+"]  这里的括弧不代表原子组 因为原子表里的字符不会被解析
+
+    // 原子组引用 完成替换操作
+    // let str = `
+    //     <span>这是一个span标签</span>
+    //     <h1>这是一个h1标签</h1>
+    //     <h4>这是一个h4标签</h4>
+    //     <h3></h3>
+    // `;
+    // let reg = /<(h[1-6])>([\s\S]*)<\/\1>/gi
+    // console.log(str.match(reg))
+    // // console.log(str.replace(reg, `<p>$2</p>`)) //这里的 $2 代表第二个原子组匹配到的内容
+    // // console.log(str)
+
+    // let res = str.replace(reg, (input, p1, p2) => {
+    //     console.log(input);
+    //     /*
+    //         input 代表 传入的 原本的 字符串
+    //         <h1>这是一个h1标签</h1>
+    //         <h4>这是一个h4标签</h4>
+    //         <h3></h3>
+    //     */
+    //     console.log(p1);
+    //     /*
+    //         p1 代表被 第一个原子组 匹配的内容
+    //         h1
+    //         h4
+    //         h3
+    //     */
+    //     console.log(p2);
+    //     /*
+    //         p2 代表 第二个原子组匹配的内容
+    //         这是一个h1标签
+    //         这是一个h4标签
+
+    //     */
+    //     return `<p>${p2}</p>`
+    // })
+    // console.log(res)
+
+    // 嵌套分组与不记录组
+    // let hd = `
+    //     https://www.baidu.com
+    //     https://baidu.com
+    // `;
+    // let reg = /https:\/\/((?:\w+\.)?\w+\.(?:com|cn|org))/g; //这里的?: 代表 不记录组  在打印的时候 看不见这个组的匹配内容
+    // console.log(hd.match(reg))
+
+    // { 1,} 代表一个到无数个 相当于 +
+    // { 0, } 代表一个到无数个 相当于 *
+
+    //禁止贪婪
+    // let str = 'hdddddd';
+    // console.log(str.match(/hd+/)); //hdddddd
+    // console.log(str.match(/hd+?/)); //hd
+    // console.log(str.match(/hd*?/)); //h
+    // console.log(str.match(/hd{3,10}?/)); //hddd
+    // console.log(str.match(/hd{3,}?/)); //hddd
+    // console.log(str.match(/hd??/)); //h
+
+    // 标签替换的禁止贪婪使用
+    // 需求 将字符串中的 span 换成 h4
+    // let str = `
+    //     <span>123213</span>
+    //     <span>123213</span>
+    //     <span>123213</span>
+    //     <span>123213</span>
+    // `
+    // // let reg = /<span>[\s\S]*<\/span>/g;
+    // // str.replace(reg, (v) => {
+    // //     console.log(v);
+    // //     // 如此操作 因为贪婪 str中所有的元素会被匹配到 因为所有的字符均符合 [\s\S]* 条件
+    // // })
+    // // 改正
+    // let reg = /<span>([\s\S]*?)<\/span>/g;
+    // str = str.replace(reg, (v, p1) => {
+    //     return `<h4>${p1}</h4>`
+    // })
+    // console.log(str)
+
+    // matchAll实现全局匹配
+    // 这个方法会返回一个迭代对象 只有最新的浏览器支持
+    // let str = `
+    //     <h1>1111111</h1>
+    //     <h2>2222222</h2>
+    //     <h1>3333333</h1>
+    // `;
+    // let reg = /<(h[1-6])>([\s\S]+?)<\/\1>/gi;
+    // let res = str.matchAll(reg);
+    // console.log(res)
+    // let arr = [];
+    // for (v of res) {
+    //     arr.push(v[2]);
+    // }
+    // console.table(arr)
+
+    // 为低端浏览器写 matchAll 方法
+    // let str = 'aaaaahaloaaaaaaaaaahalo'
+    // // String.prototype.matchAll = function (reg) {
+    // //     let res = this.match(reg);
+    // //     if (res) {
+    // //         return [res]
+    // //     }
+    // // }
+    // // 思路 在查找到一个后 把找到的 替换为空 在进行递归查找
+    // String.prototype.matchAll = function (reg) {
+    //     console.log(this)
+    //     let res = this.match(reg);
+    //     if (res) {
+    //         let s = this.replace(reg, ''.repeat(res.length))
+    //         let match = s.matchAll(reg);
+    //         return [res, ...match]
+    //     }
+    //     return []
+    // }
+    // console.log(str.matchAll(/halo/))
+    // console.log(str)
+
+    // 使用 正则表达式方法 exec 实现全局匹配
+    // let str = 'aaaaahaloaaaaaaaaaahalo';
+    // let reg = /halo/g; //这里g模式 必须要写 不然每一次都会从第一个字符进行匹配 不会返回空
+    // console.log(execAll(reg, str))
+    // function execAll(reg, str) {
+    //     let arr = []
+    //     while (res = reg.exec(str)) {
+    //         arr.push(res);
+    //     }
+    //     return arr;
+    // }
+
+    // 字符串正则方法  search 与 match
+    // let str = '1234562';
+    // console.log(str.search('2')); // 1 返回了字符所在索引位置
+    // console.log(str.search(/23/));  // 1
+    // console.log(str.match(/2/g)); //["2", "2"]
+    // split 也可以使用 正则表达式 作为参数
+    // let date = '2019/12-15';
+    // console.log(date.split(/[-\/]/))
+
+    // $ 在正则替换中的作用
+    // let str = "(010)9999999 (020)8888888";
+    // let reg = /\((\d{3,4})\)(\d{7,8})/g;
+    // // console.log(str.match(reg));
+    // console.log(str.replace(reg, "$1-$2")); //这里的$1-$2需要传一个字符串 //010-9999999 020-8888888  
+
+    // let hd = '%234=';
+    // let reg = /234/;
+    // console.log(hd.replace(reg, "--$&--"));  // %--234--= $& 代表匹配出来的内容
+    // console.log(hd.replace(reg, "$`")); //%%=  $`匹配内容左侧的内容
+    // console.log(hd.replace(reg, "$'")); //%==  $'       右
+
+    //原子组在替换中的使用技巧
+    // let str = `
+    //     <a href="http://www.123">111</a>
+    //     <a id="l1" href="http://123A">222</a>
+    //     <a href="https://www.baidu.com">222</a>
+    //     <h4>http://123</h4>
+    // `;
+    // let reg = /(<a.*href=['"])(http)(:\/\/)(www\.)?(123|123A)/ig
+
+    // str = str.replace(reg, (v, ...args) => {
+    //     console.log(args)
+    //     args[1] += 's';
+    //     args[3] = args[3] || 'www.'
+    //     args = args.splice(0, 5);
+    //     return args.join("")
+    // })
+    // console.log(str)
+
+    // 原子组中的别名
+    // let str = `
+    //     <h1>11111</h1>
+    //     <p>2222222</p>
+    //     <h6>333</h6>
+    //     <h1>11111</h1>
+    // `
+    // const reg = /<(h[1-6])>(?<con>[\s\S]*?)<\/\1>/gi
+    // console.log(str.replace(reg, "<h4>$<con><h4>"));
+    // //()中的 ? <con> 就是别名  使用方法 $<con>
+
+
+    //使用原子组别名 优化正则
+    // let str = `
+    //     <a href="http://www.123">123</a>
+    //     <a id="l1" href="https://123A">123A</a>
+    //     <a href="https://www.baidu.com">百度</a>
+    //     <h4>http://123</h4>
+    // `;
+    // const arr = []
+    // const reg = /<a.*href=(['"])(?<link>https?:\/\/.+)\1>(?<title>.*?)<\/a>/g
+    // // console.log(str.match(reg))
+    // for (const i of str.matchAll(reg)) {
+    //     console.log(i.groups)
+    //     arr.push(i.groups)
+    // }
+    // console.table(arr)
+
+    //使用exec统计某个字符出现的次数
+    // let str = '122221411151';
+    // let reg = /1/g;
+    // function count(str, reg) {
+    //     let count = 0;
+    //     while (res = reg.exec(str)) {
+    //         count++
+    //     }
+    //     return count
+    // }
+    // console.log(count(str, reg))
+
+    //?=断言匹配 相当于正则表达式中的条件语句
+    // let str = '162221416';
+    // // 需求 如果1后面是6 在1后面加上A
+    // let reg = /1(?=6)/g;
+    // str = str.replace(reg, '$&A')
+    // console.log(str)
+
+    // 使用断言规范价格 在没有保留两位小数的价格 后面 加上.00
+    // let str = `
+    //     js,200元,300次
+    //     php,300.00元,60次
+    //     java,12元,19次
+    // `
+    // let reg = /(\d+)(\.00)?(?=元)/g; //这里断言也有括号 但并不是组 在args中没有
+    // str = str.replace(reg, (v, ...args) => {
+    //     console.log(args);
+    //     args[1] = args[1] || '.00'
+    //     return args.splice(0, 2).join('')
+    // })
+    // console.log(str)
+
+    // ?<= 断言匹配
+    // let str = `
+    //     <a href="http://www.123">123</a>
+    //     <a href="https://123A">123A</a>
+    // `
+    // let reg = /(?<=href=(['"])).*(?=\1)/g;
+    // str = str.replace(reg, 'https://111111')
+    // console.log(str)
+
+    // 使用断言进行模糊号码设置
+    // let phone = `
+    //     A: 11111111111
+    //     B: 11221111111
+    // `
+    // const reg = /(?<=\d{3})\d{4}(?=\d{4})/g;
+    // // phone = phone.replace(reg, '*'.repeat(4))
+    // phone = phone.replace(reg, v => {
+    //     console.log(v); //这里的v 是匹配到的内容
+    //     return '*'.repeat(4)
+    // })
+    // console.log(phone)
+
+    //?! 断言匹配
+    // let str = 'aaaaaa2014bbbb';
+    // let reg = /[a-z]+(?!\d)/;
+    // console.log(str.match(reg)); //aaaaa
+    // let reg2 = /[a-z]+(?!\d)$/;
+    // console.log(str.match(reg2)); //bbbb
+
+    // /^(?!.*aaa.*)/ 这样写整个字符串就不能包括 aaa字符
+
+
+    //?<! 断言匹配 限制前面不是谁
+    // let str = 'aaaaaa2014bbbb';
+    // let reg = /(?<!\d+)[a-z]+/g;
+    // console.log(str.match(reg)); //["aaaaaa", "bbb"]
+    // let reg = /^(?<!\d+)[a-z]+/g;
+    // console.log(str.match(reg)); //["aaaaaa"]
+
+    // let str = `
+    //     <a href="https://www.111.com/1.jpg">1</a>
+    //     <a href="https://oss.222.com/2.jpg">1</a>
+    //     <a href="https://cdn.333.com/3.jpg">1</a>
+    //     <a href="https://444.com/4.jpg">1</a>
+    // `
+    // let reg = /https:\/\/([a-z0-9]+)?(?<!oss)\..+?(?=\/)/g;
+    // str = str.replace(reg, v => {
+    //     console.log(v)
+    //     return 'https://oss.222.com'
+    // })
+    // console.log(str)
+
+
+
+
+
+
+
+
+
+
+
+
+    // 字符边界约束
+    // ^ 开头  $ 结尾
+
+    // 匹配模式
+    // g 全局匹配
+    // i 不区分大小写
+    // s 将字符串视为单行 此时 换行被视为 普通空白  '.' 可以匹配出所有字符
+    // m 多行匹配修正符 会把字符串每一行 进行分别对待
+    // u 采用unicode时使用
+    // y 全局 匹配 从字符串的第一个开始匹配 不符合则不再继续匹配
+
+    // 原子表 []  原子组 ()
+    // [^]  原子表开头带^ 代表除了原子表中的内容
+    // [a-z] 代表所有小写字母
+    // let reg = /[123456]/; //代表 1或者2或者3……
+    // let reg2 = /(12|34)/; //代表 12 或 34
+
+	// 		 12312`
+    // console.log(str.match(/.+/))
+
+    // . 除换行外任何字符
+    // 元字符
+    // 所有大写元字符均表示与小写相反的意思
+    // \d 代表数字 0-9
+    // \w 字母 数字 下划线 
+    // \s 空白 空格 制表符 换行
+
+    // 重复匹配
+    // + 匹配1个 或多个
+    // ? 0个 或多个
+
+    // 正则.test(字符串)  有返回真 没有返回假
+    // 字符串.match(正则) 有返回 匹配到的内容 返回类型是数组   没有返回null
+    // let a = '111qqq5454qqq';
+    // console.log(a.match(/\d{3,4}/g)); //["111", "5454"] 
+</script>
+
+</html>

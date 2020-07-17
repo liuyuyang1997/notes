@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            padding: 100px;
+        }
+
+        .box-wrap {
+            width: 204px;
+            height: 408px;
+            position: relative;
+            perspective: 200;
+            -webkit-perspective: 1500px;
+        }
+
+        .up0 {
+            position: relative;
+            z-index: 2;
+            transform: rotateX(0deg);
+            transform-origin: 102px 204px;
+        }
+
+        .up0-active {
+            transform: rotateX(-90deg);
+        }
+
+        .up1 {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .down1 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 3;
+            transform: rotateX(-90deg);
+            transform-origin: 102px 204px;
+        }
+
+        .down1-active {
+            transform: rotateX(-180deg);
+
+        }
+    </style>
+</head>
+
+<body>
+    <p class="today"></p>
+    <div class="box-wrap">
+        <img class="up0" src="./images/1/0-up.jpg" alt="">
+        <img class="up1" src="./images/1/1-up.jpg" alt="">
+        <img class="down0" src="./images/1/0-down.jpg" alt="">
+        <img class="down1" src="./images/1/1-down.jpg" alt="">
+    </div>
+    <script>
+        let boxwrap = document.querySelector('.box-wrap');
+        let flag = false
+        boxwrap.addEventListener('click', () => {
+
+            let up0 = document.querySelector('.up0');
+            let down1 = document.querySelector('.down1');
+            up0.style.transition = "0.2s all linear";
+            down1.style.transition = "0.2s all linear";
+
+
+            up0.classList.add('up0-active');
+            setTimeout(() => {
+
+                down1.classList.add('down1-active');
+            }, 200)
+            setTimeout(() => {
+                up0.style.transition = "none";
+                down1.style.transition = "none";
+                up0.classList.remove('up0-active');
+                down1.classList.remove('down1-active');
+                if (flag) {
+                    document.querySelector('.up0').src = './images/2/1-up.jpg'
+                    document.querySelector('.up1').src = './images/2/2-up.jpg'
+                    document.querySelector('.down0').src = './images/2/1-down.jpg'
+                    document.querySelector('.down1').src = './images/2/2-down.jpg'
+                } else {
+                    document.querySelector('.up0').src = './images/1/0-up.jpg'
+                    document.querySelector('.up1').src = './images/1/1-up.jpg'
+                    document.querySelector('.down0').src = './images/1/0-down.jpg'
+                    document.querySelector('.down1').src = './images/1/1-down.jpg'
+                }
+            }, 900)
+        })
+
+
+        let todaybox = document.querySelector('.today');
+        let today = getTime();
+        todaybox.innerHTML = today;
+
+        setInterval(() => {
+
+
+            flag = !flag;
+            console.log(flag)
+
+            today = getTime();
+            todaybox.innerHTML = today;
+
+            boxwrap.click(); //执行动画
+        }, 1000);
+
+        function getTime() {
+            var myDate = new Date();
+            let year = myDate.getFullYear();
+            let month = addZero(myDate.getMonth() + 1);
+            let day = addZero(myDate.getDate());
+            let hour = addZero(myDate.getHours());
+            let minutes = addZero(myDate.getMinutes());
+            let second = addZero(myDate.getSeconds())
+            return `${year}年${month}月${day}日 ${hour}:${minutes}:${second}`
+        }
+        function getSecond() {
+            var myDate = new Date();
+            return myDate.getSeconds();     //获取当前秒数(0-59)
+        }
+        function addZero(val) {
+            return val.toString().padStart(2, '0');
+        }
+
+    </script>
+</body>
+
+</html>

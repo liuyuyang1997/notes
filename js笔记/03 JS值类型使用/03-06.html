@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //3-8 字符串替换
+        // const hd = "houdunren.com";
+        // console.log(hd.replace("houdunren", "hdcms")); //hdcms.com
+
+        //3-9 repeat
+        //console.log("*".repeat(3)); //***
+
+        //字符串与数值相互转换
+        // let string = "66";
+        // console.log(typeof (string * 1)); //number
+        // console.log(typeof (Number(string))); //number
+        // let num = 66;
+        // console.log(typeof (num + "")); //string
+        // console.log(typeof (String(num))); //string
+
+        // let data = "99safsdafdsa";
+        // console.log(parseInt(data)); //99
+        // console.log(parseFloat(data)); //99
+        // console.log(Number(data)); //NaN
+
+        // let data2 = "a1111fdsaf";
+        // console.log(parseInt(data2)); //NaN
+        // console.log(Number(data2)); //NaN
+
+        //字符串转数组
+        // let str = "1,2,3,4,5";
+        // console.log(str.split(',')); //["1", "2", "3", "4", "5"]
+        // let str2 = 'abc';
+        // console.log(str2.split()); //["abc"]
+        // console.log(str2.split("")); // ["a", "b", "c"]
+
+        // let str = new String("abc");
+        // console.log(typeof (str)); //object
+        // console.log(str.substr(2)); //c
+
+        //boolean隐式转换原理
+        // let boolean = new Boolean(false);
+        // if (boolean) {  //此时的boolean会被认为是对象 对象会被转换为 true
+        //     alert(1);  //会执行
+        // }
+        // if (boolean.valueOf()) {
+        //     alert(2); // 不会执行
+        // }
+
+        // true转换为数值=>1  false=>0  在==运算中 boolean会被转换为数值
+        // let num = 89;
+        // console.log(num == true); //false 此处的true被转换为了 1
+
+        // 数组转化为数值
+        // let array = [];
+        // console.log(Number(array)); //0
+        // let arr = [89];
+        // console.log(Number(arr)); //89
+        // let arr2 = [1, 2, 3];
+        // console.log(Number(arr2)); //NaN
+
+        //数组转化为boolean
+        // console.log(Boolean([])); //true  引用类型转化为布尔都是true  {}也一样
+
+        //将数值转化为boolean 字符串 引用类型同理
+        // let num = 0;
+        // console.log(!!num); //false
+        // console.log(Boolean(num)); //false
+
+        //判断数值是否为整数
+        // let num = 99.2, num2 = 99;
+        // console.log(Number.isInteger(num)); //false
+        // console.log(Number.isInteger(num2)); //true
+
+        //数值四舍五入
+        // let num = 12.81854;
+        // console.log(num.toFixed(2)); //12.82 参数为保留几位小数 之后四舍五入
+        // console.log(num.toFixed()); //13 不传参 就转化为整数
+
+        //NaN 自己与自己做比较 为 假
+        // console.log(NaN === NaN); //NaN
+        // console.log(Number.isNaN(Number('xiaxiede'))); //true 可以使用Number的isNaN函数来判断是否为NaN
+        // console.log(Object.is(Number('xiaxiede'), NaN)); //true
+
+        //一些数学运算 max ceil floor round
+        // console.log(Math.max(1, 2, 5, 4, 7)); //7 取最大值
+        // console.log(Math.ceil(5.01)); //6 向上取整
+        // console.log(Math.floor(5.999)); //5 //向下取整
+        // console.log(Math.round(5.56)); //6 四舍五入
+
+        //取 0-max 之间的随机数公式
+        // Math.floor(Math.random() * (max+1));
+        // console.log(Math.floor(Math.random() * 3)); //取0-2之间的随机整数
+
+        //日期 
+        // const date = new Date();
+        // console.log(date); //Mon Mar 23 2020 22:42:34 GMT+0800 (中国标准时间)
+        // console.log(date * 1); //1584974643292 时间戳 单位毫秒
+        // let hd = Date();
+        // console.log(typeof (hd)); //string  typeof(date) -- object 
+        // console.log(hd * 1); //NaN
+
+        // console.log(Date.now()); //时间戳
+
+        // let date = new Date("1997-4-25 03:14:01");
+        // console.log(date);
+        // console.log(date.getMonth()); //3  月份从0开始算
+
+        // console.log(new Date(1997, 3, 19, 4, 25, 1));
+
+        //获取时间戳的几种方法
+        // const date = new Date("1997-4-25")
+        // console.log(date * 1);
+        // console.log(Number(date));
+        // console.log(date.valueOf());
+        // console.log(date.getTime());
+        // //timestamp 转化为 标准时间
+        // let timestamp = date.valueOf();
+        // console.log(new Date(timestamp))
+
+        //格式化时间
+        let date = new Date("1997-4-25 1:25:40");
+        function dateformat(date, format = "YYYY-MM-DD HH:mm:ss") {
+            const config = {
+                YYYY: date.getFullYear(),
+                MM: date.getMonth() + 1,
+                DD: date.getDate(),
+                HH: date.getHours(),
+                mm: date.getMinutes(),
+                ss: date.getSeconds()
+            }
+            for (const key in config) {
+                console.log(format)
+                format = format.replace(key, config[key]);
+            }
+            return format;
+        }
+        console.log(dateformat(date, 'YYYY年MM月DD日'));
+    </script>
+</body>
+
+</html>

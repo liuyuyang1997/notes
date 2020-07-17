@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>hdcms</button>
+    <button>hd</button>
+    <script>
+        // let dom = {
+        //     site: '附加文本',
+        //     show() {
+        //         let buttons = document.querySelectorAll('button');
+        //         let self = this
+        //         buttons.forEach(function (item) {
+        //             item.addEventListener('click', function () {
+        //                 console.log(this.innerHTML + self.site)
+        //             })
+        //         })
+        //     }
+        // };
+        // dom.show();
+
+        let dom = {
+            site: '附加文本',
+            show() {
+                let buttons = document.querySelectorAll('button');
+                let self = this
+                buttons.forEach(item => {
+                    item.addEventListener('click', (event) => {
+                        console.log(event.target.innerHTML + this.site);
+
+                    })
+                })
+            }
+        };
+        dom.show();
+    </script>
+</body>
+
+</html>

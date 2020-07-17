@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // //定义模块
+    // let module = (function () {
+    //     //声明一个容器来存储模块
+    //     const moduleList = {}
+    //     // modules 依赖的其他模块 是数组
+    //     // modules 里面是依赖模块的名称 
+    //     function define(name, modules, action) {
+    //         // 1 从容器中取得被依赖的方法
+    //         modules.map((m, i) => {
+    //             modules[i] = moduleList[m]
+    //         })
+    //         // 2 把依赖的方法的结果 返回出去
+    //         // 模块的function 只有在初始化的时候执行1次
+    //         moduleList[name] = action.apply(null, modules)
+    //     }
+    //     return { define }
+    // })()
+    // // 声明一个工具模块
+    // // 参数 ：名字 是否依赖其他模块 模块具体的动作
+    // module.define('hd', [], function () {
+    //     return {
+    //         // 取得数组的第一项
+    //         first(arr) {
+    //             return arr[0];
+    //         },
+    //         // 取得数组的最大值
+    //         max(arr, key) {
+    //             return arr.sort((a, b) => b[key] - a[key])[0];
+    //         }
+    //     }
+    // })
+    // // 声明一个课程管理模块
+    // module.define('lesson', ['hd'], function (hd) {
+    //     let data = [
+    //         { name: 'js', price: '199' },
+    //         { name: 'css', price: '300' },
+    //         { name: 'html', price: '25' }
+    //     ]
+    //     console.log(hd.max(data, 'price'))
+    // }) 
+
+    // 模块加载存在延迟 例如 获取写在后面的元素 也可以加载到
+    // type = module 的 script标签 默认采取严格模式
+
+    // 普通模式打印this 返回window  严格模式中是 undefined
+</script>
+
+<!-- 模块具有独立的作用域 -->
+<!-- <script type="module">
+    let site = 123
+</script>
+<script type="module">
+    console.log(site) //site is not defined
+</script>
+<script>
+    console.log(site); //site is not defined
+</script>
+
+</html> -->
+
+<!-- 模块预解析只会解析一次 -->
+
+<script type="module">
+    // //批量导入的方法
+    // import * as api from "./1.js";
+    // // 这个写法 在使用打包工具时 会把所有1.js打包
+    // api.show(); //地址
+
+    //别名的使用
+    // let title = 999;
+    // import { title as s } from "./1.js";
+    // // export title as s 导出的时候这样写 同理
+    // console.log(s); //标题
+
+    //默认导出
+    // export default 在只导出一个的时候 可以使用
+    // export User as default 另一种写法
+    // 接收的时候
+    // import *** form …… //***就是你起的别名
+    // import {default as hd} from …… //另一种写法
+
+    //混合导出的接收
+    // export {User as default,site} //混合导出
+    // import hd,{site} from …… //hd为默认导入 site为具名导入
+    // 使用 * 批量导入的时候 使用默认导出的方法 api.default 
+
+    // 默认导出模块的使用规范
+    // 建议使用和模块所在的js文件名导入
+
+    // import 必须写在顶层
+
+    // 按需动态加载模块
+    if (true) {
+        import("./1.js").then(({ title, url }) => {
+            console.log(title);
+        })
+    }
+
+</script>

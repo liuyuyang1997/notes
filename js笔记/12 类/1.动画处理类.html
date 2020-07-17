@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .card .title {
+            height: 70px;
+            background: #000;
+            color: #fff;
+        }
+
+        .card .content {
+            height: 200px;
+            background: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card-group">
+        <div class="card">
+            <div class="title">标题标题</div>
+            <div class="content">内容内容内容内容</div>
+        </div>
+        <div class="card">
+            <div class="title">标题标题</div>
+            <div class="content">内容内容内容内容</div>
+        </div>
+        <div class="card">
+            <div class="title">标题标题</div>
+            <div class="content">内容内容内容内容</div>
+        </div>
+    </div>
+
+</body>
+<script>
+    //动画类
+    class Animation {
+        constructor(el) {
+            this.timeout = 100
+            this.el = el;
+            this.isshow = true
+            this.originalHeight = this.height
+        }
+        get height() {
+            return window.getComputedStyle(this.el).height.slice(0, -2) * 1
+        }
+        set height(height) {
+            this.el.style.height = height + 'px';
+        }
+        hide(callback) {
+            this.isshow = false;
+            let id = setInterval(() => {
+                if (this.height == 0) {
+                    clearInterval(id)
+                    callback && callback()
+                    return
+                }
+                this.height--;
+            }, this.timeout)
+        }
+        show(callback) {
+            this.isshow = true;
+            let id = setInterval(() => {
+
+                if (this.height >= this.originalHeight) {
+                    clearInterval(id)
+                    callback && callback()
+                    return
+                }
+                this.height++;
+            }, this.timeout)
+        }
+    }
+    class Content extends Animation {
+        static num = 0;
+        //对所有类的控制 多设置为静态方法
+        static hideAll(items, callback) {
+            if (Content.num > 0) return; //如果计数器大于1 不做处理
+            items.forEach(val => {
+                Content.num++;
+                val.hide(() => {
+                    Content.num--; //回调函数 隐藏完毕解除限制
+                    callback && callback()
+                })
+            })
+        }
+        static filter(items, i) {
+            return items.filter((val, index) => index != i)
+        }
+    }
+    class Slide {
+        constructor(el) {
+            this.el = el;
+            this.title = el.querySelectorAll('.title');
+            this.content = [...el.querySelectorAll('.content')].map(item => new Content(item));
+            this.bind()
+        }
+        //绑定事件
+        bind() {
+            this.title.forEach((item, i) => {
+                item.addEventListener('click', () => {
+                    this.action(i)
+                })
+            })
+        }
+        action(i) {
+            Content.hideAll(Content.filter(this.content, i), () => {
+                this.content[i].show()
+            })
+
+        }
+    }
+    let cardGroup = document.querySelector('.card-group')
+    let a = new Slide(cardGroup);
+
+</script>
+
+</html>

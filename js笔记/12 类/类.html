@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    //class 声明类语法
+    // class User {
+    //     constructor(name) {
+    //         this.name = name
+    //     }
+    //     get() { }
+    //     show() {
+    //         console.log('show')
+    //     }
+    // }
+    // console.log(typeof User); //function
+    // let a = new User('zs');
+    // a.show(); //show
+    // console.log(a.name) //zs
+
+    // 对象属性声明
+    class User {
+        age = 20;
+        constructor(name) {
+            this.name = name
+        }
+        changeAge(age) {
+            this.age = age
+        }
+    }
+    let a = new User('张三');
+    a.changeAge(22);
+    console.log(a); //{age: 22, name: "张三"}
+
+    // for in 方法遍历对象 会找它的原型链
+    // class类 构造出的对象 方法是不可遍历的
+    class User {
+        constructor(name) {
+            this.name = name
+        }
+        show() { }
+    }
+    let a = new User('zs')
+    console.log(Object.getOwnPropertyDescriptor(User.prototype, 'show')); //其中 enumerable: false 默认是不可遍历
+    for (key in a) {
+        console.log(key) //name
+    }
+
+    // function User(name) {
+    //     this.name = 'zs';
+    // }
+    // User.prototype.show = function () {
+    // }
+    // let a = new User('lisi');
+    // // console.log(Object.getOwnPropertyDescriptor(User.prototype, 'show')); //enumerable: true 默认是可遍历的
+    // // for (const key in a) {
+    // //     console.log(key); //name show 
+    // // }
+    // // 如果想用这种方法但是不想遍历 原型中的方法
+    // for (const key in a) {
+    //     if (a.hasOwnProperty(key)) {  //hasOwnProperty 查看自身属性
+    //         console.log(key); //name
+    //     }
+    // }
+
+    //对象属性 与 静态属性
+    function Web(name) {
+        this.name = name;
+    }
+    Web.name = 'webweb'
+    let a = new Web('zs');
+    console.log(a.name); //zs 对象属性
+    console.log(Web.name); //Web 构造函数的静态属性
+
+    // class 中的静态属性
+    class Request {
+        static host = 'http://www.123.com'; //静态属性
+        // 像是请求后台接口的host地址是固定的 并不是每一个对象特有的 设置为静态属性最合适
+        api(url) {
+            return Request.host + `/${url}`
+        }
+    }
+    let obj = new Request();
+    console.log(obj.api('banner'));//http://www.123.com/banner
+    console.log(obj.host); //undefined 静态属性是构造函数的属性 对象中访问不到
+
+    // 静态方法与静态属性类似
+    class Admin {
+        constructor(name, age, sex) {
+            this.name = name
+            this.age = age
+            this.sex = sex
+        }
+        static create(...args) {
+            return new this(...args)
+        }
+    }
+    let user = Admin.create('张三', '22', '男'); //调用 create 方法的对象 Admin 就是this
+    console.log(user)
+
+    // 使用静态方法 查找最贵课程 计算课程总价
+    let lessons = [
+        { name: 'php', price: 200 },
+        { name: 'js', price: 100 },
+        { name: 'css', price: 300 }
+    ]
+    class Lesson {
+        constructor(model) {
+            this.model = model
+        }
+        get price() {
+            return this.model.price
+        }
+        static createBatch(lessons) {
+            return lessons.map(v => new this(v))
+        }
+        static maxPrice(arr) {
+            return arr.sort((a, b) => b.price - a.price)[0].price
+        }
+        static total(arr) {
+            return arr.reduce((t, v) => t + v.price * 1, 0)
+        }
+    }
+    let le = Lesson.createBatch(lessons);
+    let max = Lesson.maxPrice(le);
+    console.log(max); //300
+    let total = Lesson.total(le);
+    console.log(total) //600
+
+    // class Request {
+    //     constructor(data) {
+    //         this.data = {}
+    //         this.url = data // 执行 set url
+    //     }
+    //     // set 访问器 在看见 this.url = *** 的时候就会执行
+    //     set url(data) {
+    //         if (!/^https?:\/\//i.test(data)) {
+    //             throw new Error('url格式错误')
+    //         }
+    //         this.data.url = data
+    //     }
+    //     get url() {
+    //         return this.data.url
+    //     }
+    // }
+    // let request = new Request('https://3123');
+    // console.log(request.url, 'get')
+
+    // 保护属性
+    // 1 使用命名规格保护属性
+    // class User {
+    //     constructor(data) {
+    //         this._host = data
+    //     }
+    //     set host(value) {
+    //         if (!/^https?:\/\//i.test(value)) {
+    //             throw new Error('host错误')
+    //         }
+    //         this._host = value
+    //     }
+    //     get host() {
+    //         return this._host
+    //     }
+    // }
+    // let a = new User();
+    // a.host = 123 //在设置host 的时候 会走set方法 并不是直接设置
+    // console.log(a.host)
+
+    // 2 使用 Symbol() 定义 protected属性
+    // const HOST = Symbol()
+    // class User {
+    //     [HOST] = '';
+    //     constructor(name) {
+    //         this.name = name
+    //     }
+    //     set host(data) {
+    //         if (!/^https?:\/\//i.test(data)) {
+    //             throw new Error('错误的host')
+    //         }
+    //         this[HOST] = data
+    //     }
+    //     get host() {
+    //         return this[HOST]
+    //     }
+    // }
+    // let a = new User();
+    // a.host = 'https://124';
+    // console.log(a.host)
+
+
+    //受保护就是说在类及其子类中可以使用  外部不能使用
+    // const HOST = Symbol()
+    // class Father {
+    //     [HOST] = '';
+    //     set host(data) {
+    //         if (!/^https?:\/\//i.test(data)) {
+    //             throw new Error('错误的host')
+    //         }
+    //         this[HOST] = data
+    //     }
+    //     get host() {
+    //         return this[HOST]
+    //     }
+    // }
+    // class User extends Father { //extends 代表继承
+    //     constructor(name) {
+    //         super(); //继承了之后需要这样设置一下
+    //         this.name = name
+    //     }
+    // }
+    // let a = new User();
+    // a.host = 'https://1246';
+    // console.log(a.host)
+
+    // 多个受保护的对象
+    // const symbol = Symbol()
+    // class Parent {
+    //     constructor() {
+    //         this[symbol] = {}
+    //         this[symbol].host = 'http://192.168.0.0.1'
+    //     }
+    //     set host(host) {
+    //         if (!/^https?:\/\//i.test(host)) {
+    //             throw new Error('错误的host');
+    //         }
+    //         this[symbol].host = host
+    //     }
+    //     get host() {
+    //         return this[symbol].host
+    //     }
+    // }
+    // class Son extends Parent {
+    //     constructor(name) {
+    //         super();
+    //         this[symbol].name = name
+    //     }
+    // }
+    // let a = new Son('名称');
+    // console.log(a) //Symbol():  host: "https://baidu.com" name: "名称"
+    // // 这里出现了name属性 但是不写 set get 方法 外界是无法使用的
+    // // console.log(a[symbol].name) //名称
+    // console.log(a.host = "https://baidu.com")
+    // console.log(a.host)
+
+    //使用weekmap 保护属性
+    // const weakmap = new WeakMap()
+    // class parents {
+    //     constructor() {
+    //         weakmap.set(this, { host: 'https://www.baidu.com' });
+    //     }
+    //     set host(host) {
+    //         if (!/^https?:\/\//i.test(host)) {
+    //             throw new Error('host error')
+    //         }
+    //         weakmap.set(this, { ...weakmap.get(this), host });
+    //     }
+    //     get host() {
+    //         return weakmap.get(this).host
+    //     }
+    // }
+    // class Son extends parents {
+    //     constructor(name) {
+    //         super();
+    //         this.name = name
+    //     }
+    //     set() {
+    //         weakmap.set(this, { ...weakmap.get(this), name });
+    //     }
+    //     get() {
+    //         return weakmap.get(this).name
+    //     }
+    // }
+    // let a = new Son('zs');
+    // console.log(a)
+    // console.log(a.name)
+    // a.host = 'https://123'
+    // console.log(a.host)
+
+    // 类的属性继承
+    // 1 构造函数
+    // function User(name) {
+    //     this.name = name;
+    // }
+    // function Admin(name) {
+    //     User.call(this, name)
+    // }
+    // let a = new Admin('zs');
+    // console.log(a)
+
+    // 2 class
+    // class User {
+    //     constructor(name) {
+    //         this.name = name;
+    //     }
+    // }
+    // class Admin extends User {
+    //     constructor(name) {
+    //         super(name);
+    //     }
+    // }
+    // let a = new Admin('ls');
+    // console.log(a); //{name: "ls"}
+
+    // super原理分析
+    // let parent = {
+    //     name: 'parent',
+    //     show() {
+    //         console.log(this.name)
+    //     }
+    // }
+    // let son = {
+    //     __proto__: parent,
+    //     name: 'son',
+    //     show() {
+    //         this.__proto__.show.call(this)
+    //     }
+    // }
+    // let a = son;
+    // a.show()
+
+    // 上述写法看似合理 但是只是在多层 基层的时候就不行了
+    // let grand = {
+    //     name: 'grand',
+    //     show() {
+    //         console.log('grand' + this.name)
+    //     }
+    // }
+    // let parent = {
+    // __proto__: grand,
+    //     name: 'parent',
+    //     show() {
+    //         //call 方法 带过来的 this 指向 son
+    //         // 会导致 show 方法 一直循环执行
+    //         this.__proto__.show.call(this)
+    //     }
+    // }
+    // let son = {
+    //     __proto__: parent,
+    //     name: 'son',
+    //     show() {
+    //         this.__proto__.show.call(this)
+    //     }
+    // }
+    // let a = son;
+    // a.show()
+
+    // 用 super 替代this.__proto__
+    // let grand = {
+    //     name: 'grand',
+    //     show() {
+    //         console.log('grand ' + this.name)
+    //     }
+    // }
+    // let parent = {
+    //     __proto__: grand,
+    //     name: 'parent',
+    //     show() {
+    //         //call 方法 带过来的 this 指向 son
+    //         // 会导致 show 方法 一直循环执行
+    //         super.show()
+    //     }
+    // }
+    // let son = {
+    //     __proto__: parent,
+    //     name: 'son',
+    //     show() {
+    //         super.show()
+    //     }
+    //     // 使用show: function(){} super会报错 这也就是 在class中 方法都是 show() 这么写的
+    //     // show: function () {
+    //     //     super.show()
+    //     // }
+    // }
+    // let a = son;
+    // a.show() //grand son
+
+
+    // 实例
+    // 计算总价
+    // 按照关键词获取
+    // class Common {
+    //     sum() {
+    //         return this.data.reduce((t, l) => t + l.price, 0)
+    //     }
+    //     getByKeys(keys) {
+    //         return this.data.filter(item => item.title.includes(keys)) //fliter 会返回 为真的项目 构成的数组
+    //     }
+    // }
+    // class Controler extends Common { }
+    // class Lessons extends Controler {
+    //     constructor(data) {
+    //         super();
+    //         this.data = data
+    //     }
+    //     info() {
+    //         return {
+    //             total: super.sum(),
+    //             data: this.data
+    //         }
+    //     }
+    //     getByKeys(keys) {
+    //         return super.getByKeys(keys).map(item => item.title) //map会返回 执行结构后的项 构成的数组
+    //     }
+    // }
+    // let lessons = [
+    //     { title: 'php', price: 100 },
+    //     { title: 'js', price: 200 },
+    //     { title: 'css', price: 300 }
+    // ]
+    // let a = new Lessons(lessons);
+    // console.log(a.sum()) //600
+    // console.log(a.info()) //{total: 600, data: Array(3)}
+    // console.log(a.getByKeys('s')) // [{title: "js", price: 200},{title: "css", price: 300}]
+    // //["js", "css"]
+
+    // 静态 方法 属性 继承
+    // function User() { }
+    // User.site = 123;
+    // User.show = function () {
+    //     console.log(this.site)
+    // }
+    // function Admin() { }
+    // Admin.__proto__ = User;
+    // Admin.show() //123
+
+    // instanceof 原理
+    // // a instanceof b  判断b的prototype是否在a的原型链上
+    // function User() { }
+    // function Admin() { }
+    // Admin.prototype = Object.create(User.prototype);
+    // let a = new Admin();
+
+    // // console.log(a instanceof Admin)
+    // // console.log(a instanceof User)
+    // // console.log(a.__proto__ == Admin.prototype)
+    // // console.log(a.__proto__.__proto__ == Admin.prototype.__proto__)
+    // // console.log(a.__proto__.__proto__ == User.prototype)
+    // // console.log(Admin.prototype.__proto__ == User.prototype)
+
+    // function checkProto(obj, constructor) {
+    //     if (!obj.__proto__) return false
+    //     if (obj.__proto__ == constructor.prototype) return true;
+    //     return checkProto(obj.__proto__, constructor)
+    // }
+    // console.log(checkProto(a, Admin));
+    // console.log(checkProto(a, User));
+    // function Member() { }
+    // let m = new Member();
+    // console.log(checkProto(m, User))
+
+
+    //isPrototypeOf 原理
+    // a.isPrototypeOf(b)  a是否在b对象的原型链上  或  b对象是否由a对象实现
+    // let a = {}
+    // let b = {
+    //     __proto__: a
+    // }
+    // let c = {
+    //     __proto__: b
+    // }
+    // console.log(a.isPrototypeOf(c))  //true
+    // class A { }
+    // class B extends A { }
+    // class C extends B { }
+    // let b = new B()
+    // let c = new C()
+    // console.log(A.prototype.isPrototypeOf(c)) //true
+
+    // 增强内置类
+    // function Arr(...args) {
+    //     args.forEach(item => this.push(item));
+    //     this.max = function () {
+    //         return this.sort((a, b) => b - a)[0]
+    //     }
+    //     this.remove = function (value) {
+    //         let index = this.findIndex(item => item == value)
+    //         this.splice(index, 1)
+    //     }
+    // }
+    // Arr.prototype = Object.create(Array.prototype);
+
+    // class Arr extends Array {
+    //     max() {
+    //         let that = JSON.parse(JSON.stringify(this))
+    //         return that.sort((a, b) => b - a)[0]
+    //     }
+    //     remove(value) {
+    //         let index = this.findIndex(item => item == value)
+    //         this.splice(index, 1)
+    //     }
+    // }
+
+
+    // let arr = new Arr(7, 1, 2, 88, 4)
+    // console.log(arr); //[7, 1, 2, 88, 4]
+    // console.log(arr.max()) //88
+    // arr.remove(1)
+    // console.log(arr) //[88, 7, 4, 2, max: ƒ, remove: ƒ]
+
+    //mixin
+    let lessons = [
+        { title: 'php', price: 100, click: 15 },
+        { title: 'js', price: 200, click: 88 },
+        { title: 'css', price: 300, click: 45 }
+    ]
+    class Lesson {
+        constructor(data) {
+            this.lessons = data
+        }
+        get data() {
+            return this.lessons
+        }
+    }
+    let Tools = {
+        max(key) {
+            return this.data.sort((a, b) => b[key] - a[key])[0]
+        }
+    }
+    Object.assign(Lesson.prototype, Tools)
+    let a = new Lesson(lessons);
+
+    console.log(a.max('click'))
+</script>
+
+</html>
