@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .content {
+            text-align: center
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">数字一：<span id="num1"></span></div>
+    <div class="content">
+        <button id="start">开始</button>
+        <button id="pause">暂停</button>
+        <button id="reset">重置</button>
+        <button id="update">更新值</button>
+    </div>
+</body>
+<script type="module">
+    // https://inorganik.github.io/countUp.js/
+
+
+    import { CountUp } from './countUp.js';
+    let options = {
+        useEasing: true,  // 过渡动画效果，默认ture
+        useGrouping: true,  // 千分位效果，例：1000->1,000。默认true
+        separator: ',',   // 使用千分位时分割符号
+        decimal: '.',   // 小数位分割符号
+        prefix: '',    // 前置符号
+        suffix: ''    // 后置符号，可汉字
+    }
+
+    let num1 = new CountUp('num1', 100, options); //el 结束时的值 配置
+
+    function bind(id, type) {
+        document.querySelector(`#${id}`).addEventListener('click', function () {
+            switch (type) {
+                case 1:
+                    num1.start(() => {
+                        console.log(666)
+                    });
+                    break;
+                case 2:
+                    num1.pauseResume();
+                    break;
+                case 3:
+                    num1.reset();
+                    break;
+                case 4:
+                    num1.update(888);
+                    break;
+            }
+
+        })
+    }
+    // window.onload = function () {
+    bind('start', 1)
+    bind('pause', 2)
+    bind('reset', 3)
+    bind('update', 4)
+    // }
+
+</script>
+
+</html>

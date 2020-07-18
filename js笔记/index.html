@@ -9,49 +9,387 @@
     </style>
 </head>
 <style>
-
 </style>
 
 
 <body>
-
 </body>
 
 <script>
-    class Common {
-        sum() {
-            return this.data.reduce((t, l) => t + l.price, 0)
-        }
-        getByKeys(keys) {
-            return this.data.filter(item => item.title.includes(keys)) //fliter 会返回 为真的项目 构成的数组
-        }
+    // "use strict"
+    /*
+        1  使用 typeof bar === "object" 判断 bar 是不是一个对象有神马潜在的弊端？如何避免这种弊端？
+    */
+
+    // 1-1 typeof 问题
+    // 由于在判断数组等类型的时候 都返回了object 导致判断不准确 
+    // typeof {} [] null  new String  /\d/  //这些都返回 object
+    // console.log(typeof NaN); //number
+    // console.log(typeof undefined); //undefined
+    // console.log(Symbol()); //Symbol()
+
+    // 1-2 instanceof 
+    // a instanceof b  检测 b.prototype 是否存在于 a 的原型链上
+    // console.log(new String() instanceof String); //true
+    // console.log('' instanceof String); //false 只有使用构造函数创建的基本类型可以正确显示
+
+    // 1-3 Object.prototype.toString.call()  判断数据类型
+    // let toString = Object.prototype.toString;
+    // function isObject(obj) {
+    //     return toString.call(obj) === '[object Object]'
+    // }
+
+    // function isString(obj) {
+    //     return toString.call(obj) === '[object String]'
+    // }
+    // // isArray [object Array]
+    // // isFunction [object Function]
+    // // isRegExp [object RegExp]
+    // // isNull [object Null]
+    // console.log(isObject([])); // false
+    // console.log(isObject({})); // true
+
+    // 1- 附加
+    // typeof new String("xxx"); // object  new String返回对象
+    // typeof String("xxx"); // string  String返回字符串
+
+    /*
+        2. 下面的代码会在 console 输出神马？为什么？
+        (function () {
+        var a = (b = 3)
+        })()
+
+        console.log(typeof a)
+        console.log(b)
+    */
+
+    // 考察变量提升 这相当于
+    // var b //此时b变成了全局变量
+    // (function () {
+    //     var a;
+    //     b = 3;
+    //     a = b;
+    // })()
+    // console.log(typeof a); //undefined 由于a是局部变量 在外部无法访问
+    // console.log(b); //3
+
+    /*
+        3. 下面的代码会在 console 输出神马？为什么？
+    */
+    // var myObject = {
+    //     foo: 'bar',
+    //     func: function () {
+    //         var self = this;
+    //         console.log(this.foo); // bar
+    //         console.log(self.foo); // bar
+    //         ; (function () {
+    //             console.log(this); //window  严格模式下是 undefined
+    //             console.log(this.foo); // undefined
+    //             console.log(self.foo); // bar
+    //         })()
+    //     }
+    // }
+    // myObject.func()
+
+    /*
+        4. 将 JavaScript 代码包含在一个函数块中有神马意思呢？为什么要这么做？
+    */
+    // for (var i = 0; i < 5; i++) {
+    //     setTimeout(function () {
+    //         console.log(i); //5
+    //     }, 1000)
+    // }
+    // for (var i = 0; i < 5; i++) {
+    //     (function (i) {
+    //         setTimeout(function () {
+    //             console.log(i); //0 1 2 3 4
+    //         }, 1000)
+    //     }(i))
+    // }
+    // for (let i = 0; i < 5; i++) {
+    //     setTimeout(function () {
+    //         console.log(i); //0 1 2 3 4
+    //     }, 1000)
+    // }
+    // // 利用 IIFE 块级作用域引入 同名方法
+    // (function (window) {
+    //     function show() {
+    //         console.log('show1');
+    //     }
+    //     function say() {
+    //         console.log('say1');
+    //     }
+    //     window.js1 = { show, say }
+    // })(window);
+    // (function (window) {
+    //     function show() {
+    //         console.log('show2');
+    //     }
+    //     function say() {
+    //         console.log('say2');
+    //     }
+    //     window.js2 = { show, say }
+    // })(window);
+    // js1.show(); //show1
+    // js2.show(); //show2
+
+    /*
+    5. 在严格模式('use strict')下进行 JavaScript 开发有神马好处？
+    */
+    // 消除 Javascript 语法的一些不合理、不严谨之处，减少一些怪异行为;
+    // 消除代码运行的一些不安全之处，保证代码运行的安全；
+    // 提高编译器效率，增加运行速度；
+    // 为未来新版本的 Javascript 做好铺垫。
+
+    // 严格模式下禁止的行为
+    // 5-1 不允许不声明变量就使用
+    // a = 5; // a is not defined
+
+    // 5-2 不允许形参重名:
+    // function a(p1, p1) { } // Duplicate parameter name not allowed in this context
+
+    // 5-3 不允许使用转义字符: //Octal escape sequences are not allowed in strict mode.
+    // var x = '\010';
+
+    // 5-4 不允许对只读属性赋值:
+    // let obj = {};
+    // Object.defineProperty(obj, 'x', { value: 0, writable: false });
+    // obj.x = 6; //Cannot assign to read only property 'x' of object
+
+    /*
+        6. 下面两个函数的返回值是一样的吗？为什么？
+    */
+    // function foo1() {
+    //     return {
+    //         bar: 'hello'
+    //     }
+    // }
+
+    // function foo2() {
+    //     return //这个函数在这里被return了 打印返回结果为undefined
+    //     {
+    //         bar: 'hello'
+    //     }
+    // }
+
+    /*
+        7. 神马是 NaN，它的类型是神马？怎么测试一个值是否等于 NaN?
+    */
+    // console.log(Number.isNaN(NaN)); //true
+
+    //7- 附加1
+    // Number.isNaN 与 isNaN 的区别
+    //isNaN
+    // console.log(isNaN(null));            //false
+    // console.log(isNaN(true));            //false
+    // console.log(isNaN(0));               //false
+    // console.log(isNaN(undefined));       //true
+    // console.log(isNaN("AB"));            //true
+    // console.log(isNaN({ a: 1 }));        //true
+    // console.log(isNaN(NaN));             //true
+    // // 可以发现 不能转化为数字的全都返回了 true
+    // // 而 Number.isNaN 只有传入的是 NaN 的时候 才返回true
+
+    // //Number.isNaN
+    // console.log(Number.isNaN(null));      //false
+    // console.log(Number.isNaN(true));      //false
+    // console.log(Number.isNaN(0));         //false
+    // console.log(Number.isNaN(undefined)); //false
+    // console.log(Number.isNaN("AB"));      //false
+    // console.log(Number.isNaN({ a: 1 }));  //false
+    // console.log(Number.isNaN(NaN));       //true
+
+    //7-附加2
+    // 模拟isNaN    
+    // function fakeIsNaN(value) {
+    //     // 根据自身与自身不相等的特性 仿写
+    //     /*
+    //         这里使用了Number() 而不是parseInt() 
+    //         是因为 isNaN('12qq') 返回真 
+    //         表示'12qq'没有被转换为12 与Number()的处理字符串方式类似
+    //     */
+    //     value = Number(value)
+    //     return value !== value
+    // }
+
+    //7-附加3
+    // Number.isNaN  polyfill  低端浏览器兼容写法
+    // Number.isNaN = Number.isNaN || function (value) {
+    //     // 根据NaN 类型是 number  并且 isNaN返回ture 来判断
+    //     return typeof value === 'number' && isNaN(value)
+    // }
+
+    /*
+        8. 解释一下下面代码的输出
+        console.log(0.1 + 0.2) //0.30000000000000004
+        console.log(0.1 + 0.2 == 0.3) //false
+    */
+    // JavaScript 存储任何数字都是遵循 IEEE-754 标准，使用 64 位固定长度来表示，也就是标准的 double 双精度浮点数。
+    // 0.1 和 0.2 都转化成二进制后再进行运算
+    // 0.00011001100110011001100110011001100110011001100110011010 +
+    //     0.0011001100110011001100110011001100110011001100110011010 =
+    // 0.0100110011001100110011001100110011001100110011001100111
+
+    // 转成十进制正好是 0.30000000000000004
+
+    /*
+        9. 实现函数 isInteger(x) 来判断 x 是否是整数
+    */
+    function isInteger(x) {
+        //可以将 x 转换成 10 进制，判断和本身是不是相等即可：
+        return parseInt(x, 10) === x
     }
-    class Controler extends Common { }
-    class Lessons extends Controler {
-        constructor(data) {
-            super();
-            this.data = data
-        }
-        info() {
-            return {
-                total: super.sum(),
-                data: this.data
+
+    //9-附加
+    // // parseInt的原理
+    // // parseInt(a, b); //返回值为  b进制下的a   在10进制中的值
+
+    // console.log(parseInt("11", 2)); // 2进制下的11 在10进制中 1*2^0 + 1*2^1  1+2 = 3
+    // console.log(parseInt("17", 8)); // 7*8^0 + 7*8^1  8+7 = 15
+    // console.log(parseInt("1f", 16)); // 16进制中 a 代表10 b10  f对应15   15*16^0+1*16^1  15+16 31
+
+    // console.log(parseInt("0", 1)); //radix最小为2，最大为36 NaN
+    // console.log(parseInt('9', 8)); //基数是8 9>2  NaN
+
+    // // 注：字符串0x开头  基数默认是 16
+    // // 注：字符串0开头  基数默认是 8 或者 16
+
+    /*
+        10. 在下面的代码中，数字 1-4 会以什么顺序输出？为什么会这样输出？
+    */
+    // ; (function () {
+    //     console.log(1)
+    //     setTimeout(function () {
+    //         console.log(2)
+    //     }, 1000)
+    //     setTimeout(function () {
+    //         console.log(3)
+    //     }, 0)
+    //     console.log(4)
+    // })()
+    // // 1432
+
+    /*
+        11. 判断一个字符串是不是回文字符串
+    */
+    // let a = '123211';
+    // function isPalindrome(str) {
+    //     return str === str.split('').reverse().join('')
+    // }
+    // console.log(isPalindrome(a));
+
+    /*
+        12. 写一个按照下面方式调用都能正常工作的 sum 方法
+    */
+
+    // function sum(...arg) {
+    //     if (arg.length == 1) {
+    //         return function fun(v) {
+    //             return arg[0] + v
+    //         }
+    //     } else {
+    //         return arg.map(item => item * 1).reduce((t, v) => t + v)
+    //     }
+
+    // }
+    // console.log(sum(2, 3)) // Outputs 5
+    // console.log(sum(2)(3)) // Outputs 5
+
+    // 12-1 变形题目 console.log(sum(3)(4)(1)())
+    // function sum(a) {
+    //     return b => {
+    //         if (b) {
+    //             return sum(a + b)
+    //         } else {
+    //             return a
+    //         }
+    //     }
+    // }
+
+
+    // console.log(sum(3)(4)(1)())
+
+    // 12-2  console.log(sum(3, 5)(4)(2, 1)(5)(3)()) //23
+    // 思路 利用递归 将所有参数拼接到一起 
+    // function sum(...args) {
+    //     return (...newargs) => {
+    //         if (newargs.length == 0) {
+    //             return args.reduce((t, v) => t + v);
+    //         } else {
+    //             return sum(...args, ...newargs);
+    //         }
+    //     }
+    // }
+    // console.log(sum(3, 5)(4)(2, 1)(5)(3)())
+
+    /*
+        15 下面的代码会输出什么？为什么？
+    */
+    // console.log(1 + '2' + '2') // 122  数字直接与字符串相加 会进行拼接
+    // console.log(1 + +'2' + '2') // 32   +'2'会将字符串'2' 转化为数字 2   
+    // console.log(1 + -'1' + '2') // 02  符号同样可以把字符转化为数字
+    // console.log(+'1' + '1' + '2') // 112
+    // console.log('A' - 'B' + '2')// NaN2  字符串与字符串做减法 返回 NaN
+    // console.log('A' - 'B' + 2)//  NaN  NaN 与数字做加减运算 还是返回 NaN
+
+    /*
+        16 解释下列代码的输出
+    */
+    //  || 或 运算符 具有 短路性质  前面的为true 后面的就不会执行 
+    // console.log('0 || 1 = ' + (0 || 1)) // 0 || 1 = 1
+    // console.log('1 || 2 = ' + (1 || 2)) // 1 || 2 = 1
+    // console.log('0 && 1 = ' + (0 && 1)) // 0 && 1 = 0
+    // console.log('1 && 2 = ' + (1 && 2)) // 1 && 2 = 2
+
+    // console.log(null == undefined); //true
+    // console.log({}.toString()); //[object Object]
+    // console.log({} == '[object Object]'); //true
+
+    /*
+       18 解释下面代码的输出
+    */
+    // var a = {},
+    //     b = { key: 'b' },
+    //     c = { key: 'c' }
+    // // 把对象设置为 key 会将对象转化为 字符串[object Object]
+    // a[b] = 123
+    // a[c] = 456 //由于两次的key一样 导致后面的吧前面的覆盖了
+
+    // console.log(a); //{ '[object Object]': 456 }
+    // console.log(a[b]) //456
+
+    Array.prototype.multiply = Array.prototype.multiply ||
+        function () {
+            let arr = this.map(v => v * v);
+            //在这个不可以直接改变this 
+            // this = [...this, ...arr] Uncaught ReferenceError: Invalid left-hand side in assignment
+            for (let key of arr) {
+                this.push(key)
             }
         }
-        getByKeys(keys) {
-            return super.getByKeys(keys).map(item => item.title) //map会返回 执行结构后的项 构成的数组
-        }
-    }
-    let lessons = [
-        { title: 'php', price: 100 },
-        { title: 'js', price: 200 },
-        { title: 'css', price: 300 }
-    ]
-    let a = new Lessons(lessons);
-    console.log(a.sum()) //600
-    console.log(a.info()) //{total: 600, data: Array(3)}
-    console.log(a.getByKeys('s')) // [{title: "js", price: 200},{title: "css", price: 300}]
-    //["js", "css"]
+    const a = [1, 2, 3, 4, 5]
+    // Implement this
+    a.multiply()
+    console.log(a) // [1, 2, 3, 4, 5, 1, 4, 9, 16, 25]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 </html>

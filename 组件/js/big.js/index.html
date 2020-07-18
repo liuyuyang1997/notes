@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./big.js"></script>
+</head>
+
+<body>
+    <script>
+        // https://github.com/MikeMcl/big.js
+
+        // 加法 plus 
+        // console.log(0.1 + 0.2); //0.30000000000000004
+        // const x = new Big(0.1); // 0.1
+        // const y = x.plus(0.2); // 0.3
+        // console.log(Big(0.7).plus(x).plus(y).toFixed(1)); // 1.1
+
+        // 减法  minus
+        console.log(0.3 - 0.1); //0.19999999999999998
+        const x = new Big(0.3);
+        const y = x.minus(0.1); //0.2
+        console.log(Big(0.7).minus(x).minus(y).toFixed(2)); //0.20
+
+        // 乘法 times
+        console.log(0.6 * 3); // 1.7999999999999998
+        console.log(new Big(0.6).times(3).toFixed(2)); //1.80
+
+        // 除法  div
+        console.log(new Big(355).div(new Big(113)).toFixed(2)); //3.14
+
+
+
+    </script>
+</body>
+
+</html>

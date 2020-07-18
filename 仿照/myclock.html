@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<title></title>
+		<style type="text/css">
+			.clock{
+				margin-top: 100px;
+				width: 100px;
+				height: 100px;
+				border-radius: 50%;
+				border: 5px solid #000;
+				position: relative;
+			}
+			.clock .second_hand,
+			.clock .minute_hand,
+			.clock .hour_hand{
+				width: 2px;
+				height: 45px;
+				background: #000;
+				position: absolute;
+				left: 50%;
+				margin-left: 1px;
+				top: 5px;
+				transform-origin: bottom;
+			}
+			.clock .minute_hand{
+				height: 30px;
+				top: 20px;
+			}
+			.clock .hour_hand{
+				height: 16px;
+				top: 34px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="clock">
+			<div class="second_hand"></div>
+			<div class="minute_hand"></div>
+			<div class="hour_hand"></div>
+		</div>
+		<p>时间</p>
+		<div class="time"></div>
+		<br/>
+		<p>日期</p>
+		<div class="date"></div>
+		<br/>
+		<p>星期</p>
+		<div class="week"></div>
+	</body>
+</html>
+<script type="text/javascript">
+	var myDate = new Date();
+	//预先加载时间，日期，星期数据
+	//获取时间写入页面
+	$(".time").text(myDate.toLocaleTimeString());
+	//获取日期写入页面
+	$(".date").text(myDate.toLocaleDateString());
+	//获取星期写入页面
+	$(".week").text(myDate.getDay());
+	
+	setInterval(function(){
+		var myDate = new Date();
+		//获取时间写入页面
+		$(".time").text(myDate.toLocaleTimeString());
+		//获取日期写入页面
+		$(".date").text(myDate.toLocaleDateString());
+		//获取星期写入页面
+		$(".week").text(myDate.getDay());
+		clock_pointer_control(myDate.getSeconds(),6,".second_hand");
+		clock_pointer_control(myDate.getMinutes(),6,".minute_hand");
+		clock_pointer_control(myDate.getHours(),30,".hour_hand");
+	},1000)
+	/* 
+		参数：
+			my_time 获取时间的方式 
+			deg		每单位时间转过的角度
+			pointer	旋转哪一个指针 
+	*/
+	function clock_pointer_control(my_time,deg,pointer){
+		var pointer_angle = my_time * deg;
+		if(pointer_angle == 360){
+			pointer_angle = 0;
+		}
+		$(pointer).css("transform","rotate("+pointer_angle+"deg)");
+	}
+</script>

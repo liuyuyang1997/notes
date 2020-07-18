@@ -1,0 +1,79 @@
+html, body {
+  margin: 0;
+  padding:0;
+  height: 100%;
+}
+
+.sky {
+  height: 480px;
+  background: #007fd5;
+  position: relative;
+  overflow: hidden;
+  animation: sky_background 10s ease-out infinite;
+  transform: translate3d(0, 0, 0);
+}
+@keyframes sky_background {
+  0% {
+	background: #007fd5;
+  }
+  50% {
+	background: #000;
+  }
+  100% {
+	background: #007fd5;
+  }
+}
+.sky .clouds_one {
+  background: url("../images/cloud_one.png");
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 300%;
+  animation: cloud_one 50s linear infinite;
+  transform: translate3d(0, 0, 0);
+}
+@keyframes cloud_one {
+  0% {
+	left: 0
+  }
+  100% {
+	left: -200%
+  }
+}
+.sky .clouds_two {
+  background: url("../images/cloud_two.png");
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 300%;
+  animation: cloud_two 75s linear infinite;
+  transform: translate3d(0, 0, 0);
+}
+@keyframes cloud_two {
+  0% {
+	left: 0
+  }
+  100% {
+	left: -200%
+  }
+}
+.sky .clouds_three {
+  background: url("../images/cloud_three.png");
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 300%;
+  animation: cloud_three 100s linear infinite;
+  transform: translate3d(0, 0, 0);
+}
+@keyframes cloud_three {
+  0% {
+	left: 0
+  }
+  100% {
+	left: -200%
+  }
+}
