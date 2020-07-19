@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+
+</style>
+
+<body>
+    <a href="https://panjiachen.gitee.io/awesome-bookmarks/interview/js.html">原文链接</a>
+</body>
+<script>
+    /*
+        1.css last-of-type last-child
+    */
+    // div:last-of-type{} //多个同级div中的最后一个 
+    // div:last-child{}  //选中的是作为子节点中最后一个的div  注:如果你在结尾写了script 那么script将会是body 的最后一个子节点
+
+    /*
+       2.事件委托的好处
+    */
+    // 1、提高JavaScript性能。事件委托可以显著的提高事件的处理速度，减少内存的占用。
+    // 2、新增加的子节点也能触发事件
+
+    /*
+        3.addEventListener 第三个参数
+    */
+    // true捕获  false冒泡
+
+    /*
+        4.target currentTarget
+    */
+    // target 当前被操作的元素  currentTarget绑定事件的元素
+
+    /*
+        5.类数组 => 数组
+    */
+    // let obj = {
+    //     '0': 'js',
+    //     '1': 'css',
+    //     '2': 'php',
+    //     'length': 3
+    // }
+    // console.log(Array.from(obj));["js", "css", "php"]
+</script>
+
+</html>
