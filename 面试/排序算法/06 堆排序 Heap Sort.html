@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function swap(arr, indexA, indexB) {
+        [arr[indexA], arr[indexB]] = [arr[indexB], arr[indexA]];
+    }
+    function heapSort(arr) {
+        let size = arr.length;
+        for (let i = Math.floor(size / 2 - 1); i >= 0; i--) {
+            heapify(arr, i, size);
+        }
+        for (let i = size - 1; i > 0; i--) {
+            swap(arr, 0, i);
+            size--;
+            heapify(arr, 0, size);
+        }
+        return arr;
+    }
+    function heapify(arrm, index, size) {
+        let largest = index;
+        let left = 2 * index + 1;
+        let right = 2 * index + 2;
+        if (left < size && arr[left] > arr[largest]) {
+            largest = left;
+        }
+        if (right < size && arr[right] > arr[largest]) {
+            largest = right;
+        }
+        if (largest !== index) {
+            swap(arr, index, largest);
+            heapify(arr, largest, size);
+        }
+    }
+
+    // test
+    const arr = [91, 60, 96, 7, 35, 65, 10, 65, 9, 30, 20, 31, 77, 81, 24];
+    console.log(heapSort(arr));
+</script>
+
+</html>
