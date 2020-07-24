@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./static/main.css">
+</head>
+
+<body>
+    <p class="today"></p>
+    <div class="clock">
+        <div class="hours">
+            <div class="box-wrap" type='h0'>
+                <img class="up-front" src="./images/0-up.jpg">
+                <img class="up-behind" src="./images/1-up.jpg" alt="">
+                <img class="down-front" src="./images/0-down.jpg" alt="">
+                <img class="down-behind" src="./images/1-down.jpg" alt="">
+            </div>
+            <div class="box-wrap" type='h1'>
+                <img class="up-front" src="./images/0-up.jpg">
+                <img class="up-behind" src="./images/1-up.jpg" alt="">
+                <img class="down-front" src="./images/0-down.jpg" alt="">
+                <img class="down-behind" src="./images/1-down.jpg" alt="">
+            </div>
+        </div>
+        <div class="minutes">
+            <div class="box-wrap" type='m0'>
+                <img class="up-front" src="./images/0-up.jpg">
+                <img class="up-behind" src="./images/1-up.jpg" alt="">
+                <img class="down-front" src="./images/0-down.jpg" alt="">
+                <img class="down-behind" src="./images/1-down.jpg" alt="">
+            </div>
+            <div class="box-wrap" type='m1'>
+                <img class="up-front" src="./images/0-up.jpg">
+                <img class="up-behind" src="./images/1-up.jpg" alt="">
+                <img class="down-front" src="./images/0-down.jpg" alt="">
+                <img class="down-behind" src="./images/1-down.jpg" alt="">
+            </div>
+        </div>
+
+        <div class="seconds">
+            <div class="box-wrap" type="s0">
+                <img class="up-front" src="./images/0-up.jpg">
+                <img class="up-behind" src="./images/1-up.jpg" alt="">
+                <img class="down-front" src="./images/0-down.jpg" alt="">
+                <img class="down-behind" src="./images/1-down.jpg" alt="">
+            </div>
+            <div class="box-wrap" type="s1">
+                <img class="up-front" src="./images/0-up.jpg">
+                <img class="up-behind" src="./images/1-up.jpg" alt="">
+                <img class="down-front" src="./images/0-down.jpg" alt="">
+                <img class="down-behind" src="./images/1-down.jpg" alt="">
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        // 日期处理类
+        class HandleDate {
+            // 处理时间格式
+            static getTime(format = 'nomarl') {
+                let myDate = new Date();
+                let year = myDate.getFullYear();
+                let month = this.addZero(myDate.getMonth() + 1);
+                let day = this.addZero(myDate.getDate());
+                let hour = this.addZero(myDate.getHours());
+                let minutes = this.addZero(myDate.getMinutes());
+                let second = this.addZero(myDate.getSeconds())
+                if (format == 'nomarl') {
+                    return `${year}年${month}月${day}日 ${hour}:${minutes}:${second}`
+                } else {
+                    return `${hour}:${minutes}:${second}`
+                }
+
+            }
+            // 为日期补零
+            static addZero(val) {
+                return val.toString().padStart(2, '0');
+            }
+            // 初始化日期
+            static initData() {
+                let todaybox = document.querySelector('.today');
+                let today = this.getTime();
+                todaybox.innerHTML = today;
+            }
+        }
+
+        // 动画类
+        class Animation {
+            constructor(el) {
+                this.boxwrap = el;
+                this.upFront = el.querySelector('.up-front');
+                this.upBehind = el.querySelector('.up-behind');
+                this.downFront = el.querySelector('.down-front');
+                this.downBehind = el.querySelector('.down-behind');
+            }
+            // 翻转
+            turn(index) {
+                this.changePics(index)
+                this.upFront.style.transition = "0s all";
+                this.downBehind.style.transition = "0s all";
+                this.upFront.classList.remove('up-front-active');
+                this.downBehind.classList.remove('down-behind-active');
+
+                setTimeout(() => {
+
+                    this.upFront.style.transition = "0.3s all linear";
+                    this.downBehind.style.transition = "0.3s all linear";
+                    this.upFront.classList.add('up-front-active');
+                }, 20)
+
+                setTimeout(() => {
+                    this.downBehind.classList.add('down-behind-active');
+                }, 300)
+            }
+            changePics(index) {
+                // 更换一组图片 eg：0s-1s  0、1图片组 
+                this.upFront.src = `./images/${index == 0 ? 9 : index - 1}-up.jpg`;
+                this.downFront.src = `./images/${index == 0 ? 9 : index - 1}-down.jpg`;
+                this.upBehind.src = `./images/${index}-up.jpg`;
+                this.downBehind.src = `./images/behind/${index}-down.jpg`;
+            }
+        }
+
+        // 时钟类
+        class Clock extends Animation {
+            run() {
+                HandleDate.initData()
+                setInterval(() => {
+                    HandleDate.initData()
+
+                }, 1000);
+                let type = this.boxwrap.getAttribute('type');
+                let interval = ''; //延迟时间 
+                this.initPic(false)
+                setInterval(() => {
+                    this.initPic()
+                }, interval);
+            }
+            // 初始化图片
+            initPic(flag = true) {
+                let type = this.boxwrap.getAttribute('type');
+                let timeArr = HandleDate.getTime('hh:mm:ss').split(':');
+                let index = ''; //图片组编号
+                switch (type) {
+                    case 'h0':
+                        index = timeArr[0].split('')[0];
+                        break;
+                    case 'h1':
+                        index = timeArr[0].split('')[1];
+                        break;
+                    case 'm0':
+                        index = timeArr[1].split('')[0];
+                        break;
+                    case 'm1':
+                        index = timeArr[1].split('')[1];
+                        break;
+                    case 's0':
+                        index = timeArr[2].split('')[0];
+                        break;
+                    case 's1':
+                        index = timeArr[2].split('')[1];
+                        break;
+                }
+                if (flag) {
+                    if (this.upBehind.getAttribute('src').includes(index)) return;
+                }
+
+                this.turn(index)
+            }
+        }
+        let boxWrap = document.querySelectorAll('.box-wrap');
+        // 执行动画
+        boxWrap.forEach(v => {
+            new Clock(v).run()
+        })
+
+
+    </script>
+</body>
+
+</html>
