@@ -123,25 +123,6 @@
         // //timestamp 转化为 标准时间
         // let timestamp = date.valueOf();
         // console.log(new Date(timestamp))
-
-        //格式化时间
-        let date = new Date("1997-4-25 1:25:40");
-        function dateformat(date, format = "YYYY-MM-DD HH:mm:ss") {
-            const config = {
-                YYYY: date.getFullYear(),
-                MM: date.getMonth() + 1,
-                DD: date.getDate(),
-                HH: date.getHours(),
-                mm: date.getMinutes(),
-                ss: date.getSeconds()
-            }
-            for (const key in config) {
-                console.log(format)
-                format = format.replace(key, config[key]);
-            }
-            return format;
-        }
-        console.log(dateformat(date, 'YYYY年MM月DD日'));
     </script>
 </body>
 

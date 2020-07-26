@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        function dateFormat(date, format = 'YYYY-MM-DD HH:mm:ss') {
+            let options = {
+                YYYY: date.getFullYear(),
+                MM: date.getMonth() + 1,
+                DD: date.getDate(),
+                HH: date.getHours(),
+                mm: date.getMinutes(),
+                ss: date.getSeconds()
+            }
+            for (let key in options) {
+                format = format.replace(key, options[key])
+            }
+            return format
+        }
+
+        // test
+        let date = new Date();
+        console.log(dateFormat(date, 'YYYY年---MM月'));
+    </script>
+</body>
+
+</html>
