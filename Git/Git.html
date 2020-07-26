@@ -1,28 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     git --version
     查看git版本号
 
-    ctrl+ l 
+    ctrl+ l
     清空
 
     简单的 linux 语句
     ls 查看文件目录
     ls -a 显示隐藏文件夹
     ll 显示文件结构
-        -rw-r--r-- 文件
-        drwxr-xr-x 文件夹
+    -rw-r--r-- 文件
+    drwxr-xr-x 文件夹
     cd 进入文件夹
     touch 创建文件
     mkdir 创建文件夹
     pwd 显示当前目录
-    rm -rf 删除文件   rm -rf * 删除全部文件
+    rm -rf 删除文件 rm -rf * 删除全部文件
+
+    vi操作
+    i 插入
+    :wq 保存 退出
 
     git config user.name "lyy"
     git config --global user.name "lyy"
@@ -32,12 +38,25 @@
     git add 添加到暂存区
     git commit -m 注释
 
-    .ignore 忽略文件 
-    *.txt 忽略所有后缀为txt的文件 
+    .ignore 忽略文件
+    *.txt 忽略所有后缀为txt的文件
     !a.txt 除了a.txt
     /vendor/**/*.php 忽略vendor文件夹及其子文件夹中的php文件
 
     git中空文件夹不会被跟踪
-    
+
+    从版本库移除文件 a.txt
+    git rm --cached a.txt
+
+    修改资料名称
+    git mv a.html b.html
+
+    git log 查看日志
+
+    修改上一次提交注释
+    git commit --amend
+
+
 </body>
+
 </html>
