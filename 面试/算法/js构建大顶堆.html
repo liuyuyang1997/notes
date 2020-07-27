@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 大顶堆： 每个结点的值都大于或等于其左右孩子结点的值
+        function MaxHeap(arr) {
+            let size = Math.floor(arr.length / 2 - 1); // 最后一个非叶子节点的索引
+            for (let i = size; i >= 0; i--) {
+                heapify(arr, i);
+            }
+            console.log(arr);
+            function heapify(arr, index) {
+                let left = index * 2 + 1;
+                let right = index * 2 + 2;
+                let maxIndex = index;
+                // 左右子节点与根节点比较 找出最大值
+                if (left < arr.length && arr[left] > arr[maxIndex]) {
+                    maxIndex = left;
+                }
+                if (right < arr.length && arr[right] > arr[maxIndex]) {
+                    maxIndex = right;
+                }
+                if (maxIndex !== index) {
+                    // 将较大的值与根节点交换
+                    [arr[maxIndex], arr[index]] = [arr[index], arr[maxIndex]];
+                    // 递归检查 替换后是否还满足大顶堆
+                    heapify(arr, maxIndex)
+                }
+            }
+
+        }
+
+        MaxHeap([91, 60, 96, 7, 35, 65, 10, 65, 9, 30, 20, 31, 77, 81, 24])
+
+    </script>
+</body>
+
+</html>

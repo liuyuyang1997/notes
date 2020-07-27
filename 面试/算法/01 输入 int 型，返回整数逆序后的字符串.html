@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 输入 int 型，返回整数逆序后的字符串。如：输入整型 1234，返回字符串“4321”。(leetCode 相似题 #7)
+
+        // 1.不把字符串转换为数组
+        function reverseInt(number) {
+            // 判断参数是否为整型
+            if (!Number.isInteger(number)) throw new Error('参数必须是整型');
+            // 如果参数是0 直接返回  由于 0%10 也等于0 影响后续操作
+            if (number === 0) return 0;
+            // sign 用来保留参数正负号 然后对参数取绝对值 方便后续操作
+            let sign = number < 0 ? '-' : '';
+            let num = Math.abs(number);
+            // 去掉参数后面的0 
+            while (num % 10 === 0) {
+                num = num / 10;
+            }
+            let res = '';
+            while (num >= 10) {
+                // 取出参数个位的值  再把个位去掉
+                res += num % 10;
+                num = parseInt(num / 10);
+            }
+            return sign + res + num;
+        }
+        console.log(reverseInt(-70100.00));
+
+        // 2. 把字符串转换为数组 利用 reverse 和 数组、字符串相互转化 解题
+        // function reverseInt(number) {
+        //     if (!Number.isInteger(number)) throw new Error('参数必须是整型');
+        //     if (number === 0) return 0;
+        //     let sign = number < 0 ? '-' : '';
+        //     let num = Math.abs(number);
+        //     while (num % 10 === 0) {
+        //         num = num / 10;
+        //     }
+        //     let res = '';
+        //     res = (num + '').split('').reverse().join('');
+        //     return sign + res;
+        // }
+        // console.log(reverseInt(-7001));
+    </script>
+</body>
+
+</html>
