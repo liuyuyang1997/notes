@@ -45,8 +45,10 @@
 
     git中空文件夹不会被跟踪
 
-    从版本库移除文件 a.txt
-    git rm --cached a.txt
+    文件移除 撤销 恢复
+    git rm --cached a.txt 从版本库移除文件 a.txt
+    git reset HEAD a.html 从暂存区移除本次修改
+    git checkout -- a.html 从仓库恢复文件到修改之前
 
     修改资料名称
     git mv a.html b.html
@@ -56,6 +58,13 @@
     修改上一次提交注释
     git commit --amend
 
+    git config --global alias.a add 为add 设置 别名 a
+
+    分支相关
+    git branch 查看分支
+    git branch ask 创建ask分支
+    git checkout ask 切换到 ask 分支
+    git checkout -b bbs 创建并切换到bbs分支
 
 </body>
 
