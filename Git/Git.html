@@ -11,8 +11,8 @@
     git --version
     查看git版本号
 
-    ctrl+ l
-    清空
+    ctrl + l 清空
+    ctrl + Ins 复制
 
     简单的 linux 语句
     ls 查看文件目录
@@ -25,6 +25,9 @@
     mkdir 创建文件夹
     pwd 显示当前目录
     rm -rf 删除文件 rm -rf * 删除全部文件
+    vim a.html 使用vi 创建并编辑 a.html
+    cat a.html 打印a.html
+
 
     vi操作
     i 插入
@@ -61,11 +64,33 @@
     git config --global alias.a add 为add 设置 别名 a
 
     分支相关
+    查看 创建 切换
     git branch 查看分支
     git branch ask 创建ask分支
     git checkout ask 切换到 ask 分支
     git checkout -b bbs 创建并切换到bbs分支
 
+    合并 删除 查看已合并
+    git merge ask 把ask分支合并到主分支
+    git branch -d ask 删除ask分支 未合并的分支不能用这个语句删除
+    git branch -D ask 强行删除未合并分支 慎用
+    git branch --merged 查看已合并分支 (在master提交点创建的分支 默认已合并)
+    git branch --no-merged 未合并
+
+    stash 临时存储区
+    分支没有 tree clean 之前 是不能切换分支的
+    可以通过临时存储区的方式 先临时存储区 再切换
+    新建的文件不会影响上述操作 也不能添加到临时存储区区
+    git stash 临时存储区
+    git stash list 临时存储区列表
+    恢复的时候 默认恢复最新一次
+    git stash apply 恢复临时存储区内容 (这种恢复方法不会清除临时存储区区)
+    git stash pop 恢复并清除临时存储区
+    git stash drop stash@{0} 清除临时存储区内容
+
+    使用TAG标签声明项目阶段版本
+    git tag v1.0
+    git tag 查看tag标签列表
 </body>
 
 </html>

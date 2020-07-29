@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <script>
+        function swap(arr, indexA, indexB) {
+            [arr[indexA], arr[indexB]] = [arr[indexB], arr[indexA]];
+        }
+        function topK(arr, k) {
+            let len = arr.length;
+            let res = [];
+            while (k > 0) {
+                // 利用大顶堆 堆顶最大的特性 循环创建k次大顶堆 获取前k个最大值
+                for (i = Math.floor(len / 2 - 1); i >= 0; i--) {
+                    heapify(arr, i, len);
+                }
+                res.push(arr.shift());
+                k--;
+            }
+            return res;
+        }
+        function heapify(arr, index, len) {
+            let max = index;
+            let left = 2 * index + 1;
+            let right = 2 * index + 2;
+            if (left < len && arr[left] > arr[max]) {
+                max = left;
+            }
+            if (right < len && arr[right] > arr[max]) {
+                max = right;
+            }
+            if (max !== index) {
+                swap(arr, index, max);
+                heapify(arr, max, len)
+            }
+        }
+        console.log(topK([91, 60, 96, 7, 35, 65, 10, 65, 9, 30, 20, 31, 77, 81, 24], 15));
+
+
+    </script>
+</body>
+
+</html>
