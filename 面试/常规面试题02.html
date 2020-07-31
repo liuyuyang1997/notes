@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="https://panjiachen.gitee.io/awesome-bookmarks/interview/questions.html">原文链接</a>
+    <script>
+        /*
+            1. 用 setTimeout 实现 setInterval
+        */
+        function interval(callback, time) {
+            setTimeout(() => {
+                callback()
+                interval(callback, time)
+            }, time)
+        }
+        interval(() => { console.log(123); }, 1000)
+    </script>
+</body>
+
+</html>
