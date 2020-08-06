@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <a
+        href="https://panjiachen.gitee.io/awesome-bookmarks/interview/algorithms.html#%E5%A4%A7%E6%95%B0%E7%9B%B8%E5%8A%A0">大数相加</a>
+</body>
+
+<script>
+    /*
+        大数相加
+        如何实现两个非常大的数字(已经超出了 Number 范围)的加法运算。
+        注意由于这两个已经超过了 Number 范围，因此不能用 Number 存，这里我们选择使用字符串存储。
+    */
+
+    // 利用字符串进行大数运算
+    function bigNumberSum(a, b) {
+        // 把短的字符串的长度 填充到与长的字符串一样长 在前面用零填充
+        a = a.padStart(b.length, '0');
+        b = b.padStart(a.length, '0');
+        let before = 0;
+        let res = [];
+        // 从个位开始相加 一直循环到最高位
+        for (let i = a.length - 1; i > -1; i--) {
+            // 当前位的和 等于 进位数+字符串中对应位的和
+            let sum = before + a[i] * 1 + b[i] * 1;
+            before = sum > 9 ? 1 : 0; // 取出进位数
+            res[i] = sum % 10; // 取出当前位的值
+        }
+        // 如果before等于1 说明最后一次循环 还是进位了
+        // 这里手动在数组的第一项添加一个1
+        if (before === 1) res.unshift('1');
+        return res.join('');
+    }
+    console.log(bigNumberSum('123456789', '9876'));
+
+</script>
+
+</html>

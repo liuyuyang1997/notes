@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <pre>
+        从字符串第一个字符开始检测
+        如果第一个字符是左侧括号
+            把这个字符push进arr
+        右
+            从arr中pop出一个值 看它是否与当前符号匹配 不匹配 返回 false
+        
+        最后查看arr 是否为空
+    </pre>
+
+    <a href="https://leetcode-cn.com/problems/valid-parentheses/">leetcode</a>
+
+
+    <script>
+        var isValid = function (s) {
+            let validGroup = {
+                '}': '{',
+                ']': '[',
+                ')': '('
+            }
+            let arr = [];
+            for (let i = 0; i < s.length; i++) {
+                if (!validGroup[s[i]]) {
+                    arr.push(s[i])
+                } else {
+                    if (validGroup[s[i]] !== arr.pop()) return false
+                }
+            }
+            return arr.length === 0;
+        }
+        console.log(isValid('{[]}'));
+    </script>
+</body>
+
+</html>

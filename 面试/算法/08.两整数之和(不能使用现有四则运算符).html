@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <pre>
+        加法可以通过&运算和^运算实现：
+        两个二进制数相加，^运算的结果是不考虑进位时的结果
+        两个二进制数相加，&运算的结果是对应为是否有进位，如果结果出现1的话，则左移（<<）1位后和^运算的结果继续做加法，直到&运算的结果为0，此时&运算的结果就是两个数的和
+    </pre>
+    <a href="https://leetcode-cn.com/problems/sum-of-two-integers/">leetcode</a>
+
+</body>
+
+<script>
+    function getSum(a, b) {
+        while (b !== 0) {
+            s = a ^ b;
+            b = (a & b) << 1
+            a = s
+        }
+        return a
+
+    }
+    console.log(getSum(1, 3));
+</script>
+
+</html>

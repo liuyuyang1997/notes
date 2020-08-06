@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <pre>
+        埃拉托斯特尼筛法
+        先用 2 去筛，即把 2 留下，把 2 的倍数剔除掉；
+        再用下一个素数，也就是 3 筛，
+        把 3 留下，把 3 的倍数剔除掉；
+        接下去用下一个素数 5 筛，把 5 留下，把 5 的倍数剔除掉；不断重复下去……
+    </pre>
+
+    <a href="https://leetcode-cn.com/problems/count-primes/">leetcode</a>
+
+
+    <script>
+        function countPrimes(num) {
+            let arr = new Array(num + 1).fill(true);
+            let count = 0;
+            for (let i = 2; i < num; i++) {
+                if (arr[i]) {
+                    count++;
+                    for (let j = i + i; j < num; j += i) {
+                        arr[j] = false;
+                    }
+                }
+            }
+            return count;
+        }
+        console.log(countPrimes(10));
+    </script>
+</body>
+
+</html>
