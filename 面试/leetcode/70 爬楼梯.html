@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <pre>
+        Fn = F(n-1) + F(n-2)
+    </pre>
+</body>
+
+<script>
+    var climbStairs = function (n) {
+        let arr = [null, 1, 2];
+        if (n <= 2) return arr[n];
+        for (let i = 3; i <= n; i++) {
+            arr[i] = arr[i - 1] + arr[i - 2]
+        }
+        return arr[n]
+    };
+    console.log(climbStairs(4));
+</script>
+
+</html>

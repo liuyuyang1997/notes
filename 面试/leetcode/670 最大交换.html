@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+</body>
+
+<script>
+    var maximumSwap = function (num) {
+        let arr = (num + '').split('');
+        let finish = [];
+        while (Math.max(...arr) == arr[0]) {
+            finish.push(arr.shift())
+        }
+        if (arr.length == 0) return finish.join('') * 1;
+        swap(arr, 0, arr.lastIndexOf(Math.max(...arr) + ''));
+        return [...finish, ...arr].join('') * 1;
+    };
+    function swap(arr, indexA, indexB) {
+        [arr[indexA], arr[indexB]] = [arr[indexB], arr[indexA]]
+    }
+    console.log(maximumSwap(98368));
+</script>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+</body>
+
+<script>
+
+    var wordBreak = function (s, wordDict) {
+        let dp = new Array(s.length + 1);
+        dp[0] = true;
+        for (let i = 0; i <= s.length + 1; i++) {
+            for (let word of wordDict) {
+                if (dp[i - word.length]) {
+                    if (s.subString(i - word.length, i) === word) {
+                        dp[i] = true
+                    }
+                }
+            }
+        }
+        return dp[s.length] || false;
+    }
+    console.log(wordBreak('leetcode', ["le", "leetcode"]));
+    // console.log(wordBreak('catsandog', ["c", "cats", "dog", "sand", "and", "cat", "an"]));
+</script>
+
+</html>

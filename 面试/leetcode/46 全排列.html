@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="https://leetcode-cn.com/problems/permutations/submissions/">leetcode</a>
+</body>
+
+<script>
+    function permute(nums) {
+        let res = [];
+        perm(nums, 0, nums.length - 1, res)
+        return res;
+    }
+    function perm(arr, p, q, res) {
+        if (p === q) {
+            res.push([...arr]);
+            return;
+        }
+        for (let i = p; i <= q; i++) {
+            swap(arr, i, p);
+            perm(arr, p + 1, q, res);
+            swap(arr, i, p);
+        }
+    }
+
+    function swap(arr, p, q) {
+        [arr[p], arr[q]] = [arr[q], arr[p]]
+    }
+    console.log(permute([1, 2, 3]));
+
+
+</script>
+
+</html>

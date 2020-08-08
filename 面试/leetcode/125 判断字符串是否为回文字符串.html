@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <pre>
+        1. 原子表中 ^ 代表除了
+        2. 利用数组 反转字符串
+    </pre>
+    <a href="https://leetcode-cn.com/problems/valid-palindrome/">leetcode</a>
+</body>
+
+<script>
+
+    var isPalindrome = function (s) {
+        s = s.replace(/[^0-9a-zA-Z]/g, '').toLowerCase();
+        return res = s === s.split('').reverse().join('') ? true : false
+    };
+    console.log(isPalindrome('ab,,::a'));
+
+</script>
+
+</html>
