@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        String.prototype.repeat1 =
+            String.prototype.repeat1 ||
+            function (num) {
+                let str = this;
+                for (let i = 1; i < num; i++) {
+                    str += this
+                }
+                return str
+            }
+        String.prototype.repeat1 =
+            String.prototype.repeat1 ||
+            function (num) {
+                return new Array(num + 1).join(this)
+            }
+
+        return new Array(num).fill(this).join("")
+    </script>
+</body>
+
+</html>

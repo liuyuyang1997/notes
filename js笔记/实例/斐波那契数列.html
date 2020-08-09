@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        function fibonacci(num) {
+            let dp = [1, 1];
+            for (let i = 2; i < num; i++) {
+                dp[i] = dp[i - 1] + dp[i - 2];
+            }
+            return dp[num - 1]
+        }
+        function fibonacci(num, p = 1, n = 1) {
+            if (num == 1) return p;
+            return fibonacci(num - 1, n, p + n)
+        }
+        console.log(fibonacci(1));
+    </script>
+</body>
+
+</html>
