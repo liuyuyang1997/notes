@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function binarySearch(arr, min, max, value) {
+        if (min > max) {
+            return 'not found'
+        }
+        let mid = Math.floor((min + max) / 2);
+        if (arr[mid] == value) {
+            return '索引为' + mid
+        } else if (arr[mid] > value) {
+            return binarySearch(arr, min, mid - 1, value)
+        } else {
+            return binarySearch(arr, mid + 1, max, value)
+        }
+
+    }
+    // test
+    let arr = [1, 2, 3, 4];
+    console.log(binarySearch(arr, 0, arr.length - 1, 4));
+    console.log(binarySearch(arr, 0, arr.length - 1, 6));
+</script>
+
+</html>
