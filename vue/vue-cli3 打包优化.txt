@@ -1,0 +1,51 @@
+1. 去掉 .map 文件
+module.exports = {
+  // ...
+  productionSourceMap: false,
+}
+
+2. 去除console
+npm install uglifyjs-webpack-plugin --save-dev
+module.exports = {
+  // ...
+  chainWebpack: config => {
+    if (process.env.NODE_ENV !== 'production') {
+      config
+        .plugin('uglifyjs-plugin')
+        .use('uglifyjs-webpack-plugin', [{
+          uglifyOptions: {
+            warnings: false,
+            compress: {
+              drop_console: true,
+              drop_debugger: false,
+              pure_funcs: ['console.log']
+            }
+          }
+        }])
+        .end()
+    }
+  }
+}
+
+3.开启Gzip压缩
+gizp压缩是一种http请求优化方式，通过减少文件体积来提高加载速度，可以减小60%以上的体积。
+注意：这个需要服务器配合开启Gzip，也可打包时不配置，直接在服务器端进行Gzip压缩。
+npm install compression-webpack-plugin --save-dev
+module.exports = {
+  // ...
+  chainWebpack: config => {
+    if (process.env.NODE_ENV === 'production') {
+      config
+        .plugin('gzip-plugin')
+        .use('compression-webpack-plugin', [{
+          filename: '[path].gz[query]',
+          algorithm: 'gzip',
+          test: /\.js$|\.html$|\.json$|\.css$|\.ttf$/,
+          threshold: 0, // 只有大小大于该值的资源会被处理
+          minRatio:0.8, // 只有压缩率小于这个值的资源才会被处理
+          deleteOriginalAssets: true // 删除原文件
+        }])
+        .end()
+    }
+  }
+}
