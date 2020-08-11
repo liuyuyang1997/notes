@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    浏览器进程中的网络线程请求获取到html数据后 通过IPC将数据传给渲染器进程的主线程
+    主线程将html解构成dom树 进行样式计算 根据dom树和样式 生成 layout tree
+    根据layout tree 生成绘制顺序表 paint 绘制记录表（记录的绘制顺序）
+    便利layout tree 生成layer tree
+    主线程将绘制顺序信息和 layer tree 传递给 合成器线程
+    合成器线程按规则进行分图层 并把图层分成更小的图块传给栅格线程进行栅格化
+    栅格化完成后 合成器线程会收到栅格线程传过来的图块信息
+    通过这些图块信息 合成器合成一个合成器帧 再通过IPC传递给浏览器进程
+    浏览器进程传给GPU进行渲染 展示到屏幕上
+
+
+
+    扩展
+    1. 什么是IPC？
+    进程间通信
+    2. DOM tree 与 layout是否一一对应？
+    不是 display:none 的在layout tree上不显示 设置::before 等的 不会出现在DOM tree上
+    3. 重排
+    当改变一个元素的尺寸 位置 属性时 会重新进行样式计算（Computed Style）布局（layout） 绘制（paint）以及后面的所有流程
+    4. 重绘
+    改变颜色属性时 不会改变布局 但是会触发样式计算和绘制
+    5. 运行动画时有大量js在执行 导致页面卡顿的原因？ 怎么优化？
+    原因：由于布局 绘制 和 js执行都是在主线程中运行 当在一帧的时间内 布局和绘制结束后 就会运行js
+    如果js 的运行时间过长 就会导致 下一帧开始时js没有及时归还主线程 导致下一帧动画没有渲染
+    优化 5-1 requestAnimationFrame() 这个api可以在下一帧开始时 暂停js执行 归还主线程
+    5-2 使用css制作动画 transform 由于 重绘只占用合成器线程 和 栅格线程 不会受主线程中js的影响
+</body>
+
+</html>

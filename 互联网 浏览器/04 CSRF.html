@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    1、什么是 CSRF
+    CSRF（全称 Cross-site request forgery），即跨站请求伪造
+
+    2、攻击原理
+    用户登录A网站，并生成 Cookie，在不登出的情况下访问危险网站B
+
+    3、防御措施
+    加 Token 验证，通过判断页面是否带有 Token 来进行验证
+    加 Referer 验证，通过判断页面的来源进行验证
+    隐藏令牌，即把 Token 隐藏在 http 的 head 头中
+</body>
+
+</html>
