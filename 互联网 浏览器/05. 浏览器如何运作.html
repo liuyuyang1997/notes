@@ -11,7 +11,7 @@
     浏览器进程中的网络线程请求获取到html数据后 通过IPC将数据传给渲染器进程的主线程
     主线程将html解构成dom树 进行样式计算 根据dom树和样式 生成 layout tree
     根据layout tree 生成绘制顺序表 paint 绘制记录表（记录的绘制顺序）
-    便利layout tree 生成layer tree
+    遍历layout tree 生成layer tree
     主线程将绘制顺序信息和 layer tree 传递给 合成器线程
     合成器线程按规则进行分图层 并把图层分成更小的图块传给栅格线程进行栅格化
     栅格化完成后 合成器线程会收到栅格线程传过来的图块信息
