@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--获取与设置原型-->
+    <script>
+        let son = {};
+        let parent = { name: '123' };
+        Object.setPrototypeOf(son, parent);
+        console.log(son);
+        console.log(Object.getPrototypeOf(son), 7887);
+    </script>
+
+    <!--constructor存在于prototype原型中，用于指向构建函数的引用。-->
+    <script>
+        function hd() {
+            this.show = function () {
+                return "show method";
+            };
+        }
+        const obj = new hd();
+        console.log(obj instanceof hd);
+
+        const obj2 = new obj.constructor();
+        console.dir(obj2.show()); //show method
+    </script>
+
+    <!--使用一个对象 构造多个对象-->
+    <script>
+        function User(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        function createByObject(obj, ...args) {
+            const constructor = Object.getPrototypeOf(obj).constructor;
+            // const constructor = obj.constructor;
+            return new constructor(...args);
+        }
+
+        let hd = new User("后盾人");
+        let xj = createByObject(hd, "向军", 12);
+        console.log(xj);
+    </script>
+
+    <!-- 让obj继承hd，即设置obj的原型为hd -->
+
+    <!-- instanceof 检测构造函数的 prototype 属性是否出现在某个实例对象的原型链上 -->
+    <!-- 使用isPrototypeOf检测一个对象是否是另一个对象的原型链中 -->
+
+    <!-- 借用原型 -->
+    <script>
+        let hd = {
+            data: [1, 2, 3, 4, 5]
+        };
+        Object.setPrototypeOf(hd, {
+            max: function () {
+                return this.data.sort((a, b) => b - a)[0];
+            }
+        });
+        console.log(hd.max());
+
+        let xj = {
+            lessons: { js: 100, php: 78, node: 78, linux: 125 },
+            get data() {
+                return Object.values(this.lessons);
+            }
+        };
+        console.log(hd.__proto__.max.apply(xj));
+    </script>
+
+    <!-- 函数默认prototype 指包含一个属性 constructor 的对象，constructor 指向当前构造函数 -->
+    <script>
+        function User(name) {
+            this.name = name;
+        }
+        let xj = new User("向军");
+        console.log(xj);
+        console.log(User.prototype.constructor == User); //true
+        console.log(xj.__proto__ == User.prototype); //true
+
+        let lisi = new xj.constructor("李四");
+        console.log(lisi.__proto__ == xj.__proto__); //true
+    </script>
+
+    <!-- 原型中保存引用类型会造成对象共享属性，所以一般只会在原型中定义方法。 -->
+</body>
+
+</html>

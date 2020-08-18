@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=], initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button message="a" class="red">aaa</button>
+    <button message="b">bbb</button>
+</body>
+<script>
+    let arr = [1, 6, 45];
+    let res = arr.filter(item => {
+        return item > 9;
+    })
+    console.log(res); //[45]  过滤操作
+
+    let btns = document.querySelectorAll('button')
+    // btns = Array.prototype.filter.call(btns, item => {
+    //     return item.getAttribute('class')
+    // })
+
+    btns = [].filter.call(btns, item => {
+        return item.getAttribute('class')
+    })
+    console.log(btns[0].innerHTML)
+</script>
+
+</html>
