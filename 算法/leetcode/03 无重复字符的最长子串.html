@@ -8,8 +8,12 @@
 </head>
 
 <body>
-    <a href="https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/">leetcode</a>
     <script>
+        // 创建 longestStr 字符串
+        // 对 s 中的字符进行依次判断
+        //     --longestStr中不存在 添加进 longestStr
+        //     --longestStr中存在 保留 现有的该字符串 之后的所有内容 并把 新出现的字符 添加进 longestStr
+        //     --每次循环 检查更新依次 longest
         var lengthOfLongestSubstring = function (s) {
             if (s.length <= 1) return s.length
             let longest = 0;
@@ -25,7 +29,7 @@
             }
             return Math.max(longestStr.length, longest);
         }
-        console.log(lengthOfLongestSubstring("fccc"));
+        console.log(lengthOfLongestSubstring("fcbdcc"));
     </script>
 </body>
 
