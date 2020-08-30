@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .wrap {
+            width: 200px;
+            height: 300px;
+            background: chartreuse;
+            position: relative;
+        }
+
+        .inner {
+            width: 100px;
+            height: 50px;
+            background: skyblue;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <pre>
+        css2
+        一：
+            父级 
+                position: relative;
+            子级
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: auto;
+        二：
+            父级
+                position: relative;
+            子级
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-top: -25px; (子元素高度的一半)
+                margin-left: -50px; (子元素宽度的一半)
+
+        flex
+        一：
+            父级
+                display: flex;
+            子级
+                margin: auto;
+        二：
+            父级
+                display: flex;
+                justify-content: center;
+                align-items: center;
+    </pre>
+
+
+</body>
+
+</html>

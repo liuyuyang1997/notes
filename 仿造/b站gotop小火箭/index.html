@@ -1,60 +1,80 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-		<title></title>
-	</head>
-	<style type="text/css">
-		body{
-			height: 2000px;
+
+<head>
+	<meta charset="utf-8">
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<title></title>
+</head>
+<style type="text/css">
+	body {
+		height: 2000px;
+	}
+
+	.rocket-con {
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		width: 150px;
+		height: 174px;
+		background: url(img/rocket_top.png) no-repeat;
+		cursor: pointer;
+		display: none;
+	}
+
+	.fly {
+		background: url(img/rocket_frame.png) no-repeat;
+		animation-name: fly;
+		animation-duration: 400ms;
+		animation-iteration-count: infinite;
+		animation-timing-function: steps(1);
+	}
+
+	@keyframes fly {
+		0% {
+			background-position-x: 0px;
 		}
-		.rocket-con{
-			position: fixed;
-			right: 0;
-			bottom: 0;
-			width: 150px;
-			height: 174px;
-			background: url(img/rocket_top.png) no-repeat;
-			cursor: pointer;
-			display: none;
+
+		25% {
+			background-position-x: -150px;
 		}
-		.fly{
-			background: url(img/rocket_frame.png) no-repeat;
-			animation-name: fly;
-			animation-duration: 400ms;
-			animation-iteration-count: infinite;
-			animation-timing-function: steps(1);
+
+		50% {
+			background-position-x: -300px;
 		}
-		@keyframes fly{
-			0%{background-position-x: 0px;}
-			25%{background-position-x: -150px;}
-			50%{background-position-x: -300px;}
-			75%{background-position-x: -450px;}
-			100%{background-position-x: -600px;}
+
+		75% {
+			background-position-x: -450px;
 		}
-	</style>
-	<body>
-		<div class="rocket-con"></div>
-		<script type="text/javascript">
-			$(function(){
-				//gotop 喷火效果 及 回顶部效果 
-				$(".rocket-con").on("mouseenter",function(){
-					$(this).addClass("fly");
-				}).on("mouseleave",function(){
-					$(this).removeClass("fly");
-				}).on("click",function(){
-					$(window).scrollTop(0);
-				})
-				//gotop火箭 显示 隐藏 效果
-				$(window).on("scroll",function(){
-					if($(window).scrollTop()>300){
-						$(".rocket-con").show();
-					}else{
-						$(".rocket-con").hide();
-					}
-				})
+
+		100% {
+			background-position-x: -600px;
+		}
+	}
+</style>
+
+<body>
+	<div class="rocket-con"></div>
+	<script type="text/javascript">
+		$(function () {
+			//gotop 喷火效果 及 回顶部效果 
+			$(".rocket-con").on("mouseenter", function () {
+				$(this).addClass("fly");
+			}).on("mouseleave", function () {
+				$(this).removeClass("fly");
+			}).on("click", function () {
+				$(window).scrollTop(0);
 			})
-		</script>
-	</body>
+			//gotop火箭 显示 隐藏 效果
+			$(window).on("scroll", function () {
+				if ($(window).scrollTop() > 300) {
+					$(".rocket-con").show();
+				} else {
+					$(".rocket-con").hide();
+				}
+			})
+		})
+	</script>
+</body>
+
 </html>
