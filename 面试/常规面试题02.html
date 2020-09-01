@@ -20,6 +20,13 @@
             }, time)
         }
         interval(() => { console.log(123); }, 1000)
+
+
+        // if([] == false) {} , if({} == false) {} , if([]) {}
+        // == 运算会调用Number
+        // Number([]) // 0
+        // Number({}) // NaN
+        // if ([]) 会调用 Boolean()
     </script>
 </body>
 
