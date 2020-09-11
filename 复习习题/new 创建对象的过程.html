@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+
+<body>
+
+    <script>
+        // new 的执行过程大致如下：
+        // 创建一个对象
+        // 将对象的 _ proto_ 指向 构造函数的 prototype
+        // 将这个对象作为构造函数的 this
+        // 返回该对象
+        function myNew(Con, ...args) {
+            let obj = Object.create(Con.prototype)
+            let result = Con.apply(obj, args)
+            return typeof result === 'object' ? result : obj
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+
+<body>
+
+    <script>
+        Function.prototype.newbind = function (target) {
+            let that = this;
+            let bindargs = Array.prototype.slice.call(arguments, 1)
+
+            // 创建一个中转函数 用来继承原型链
+            // 不然修改 newFunction 的原型  会导致构造函数上添加新的属性
+            const midFunc = function () { }
+            midFunc.prototype = that.prototype
+
+            let newFunction = function () {
+                let curargs = Array.prototype.slice.call(arguments, 0);
+                let allargs = bindargs.concat(curargs);
+                let isConstruct = this instanceof newFunction
+                return that.apply(isConstruct ? this : target, allargs)
+            }
+            // newFunction.prototype.age = 12132
+            // 继承原型
+            newFunction.prototype = new midFunc()
+            return newFunction
+        }
+
+    </script>
+</body>
+
+</html>

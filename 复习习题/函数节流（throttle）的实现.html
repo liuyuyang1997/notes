@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>123</div>
+    <script>
+        let lastTimestamp = 0;
+        function throttle(func, wait) {
+            let now = +new Date();
+            console.log(now);
+
+            let that = this
+            return function () {
+                if (now - lastTimestamp >= wait) {
+                    func.apply(that, arguments)
+                    lastTimestamp = now
+                }
+            }
+
+        }
+        document.querySelector('div').addEventListener('click', function () {
+            let func = throttle(() => console.log('submit'), 2000)
+            func()
+        })
+    </script>
+</body>
+
+</html>
